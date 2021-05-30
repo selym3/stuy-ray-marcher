@@ -13,7 +13,9 @@ It may also be an interactive work, in which case an adequate set of instruction
 You will need to learn to use the turtle library well, including learning to use any techniques necessary for your project that we have not covered in class.
 
 *Scene creation*: the creation sequence for the still image should take between 15 and 60 seconds.
+
 or
+
 *Animation*: the animation should take between 30 seconds and no more than 3 minutes
 
 You should submit to the homework server:
