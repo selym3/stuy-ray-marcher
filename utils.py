@@ -1,3 +1,8 @@
+import numpy as np
+def mag(V):
+    ''' normalize a numpy vector '''
+    return np.linalg.norm(V)
+
 import random
 def random_color():
     ''' generates a tuple with 3 components in the range [0,255] '''

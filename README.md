@@ -40,3 +40,4 @@ You should submit to the homework server:
 - [ ] Create a python file with all the code OR a compiled/single python file
 - [ ] Upload to moe, homework server, etc.
 - [ ] Multi-threading?
+- [ ] Document all code
