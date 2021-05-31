@@ -4,6 +4,14 @@ from PIL import ImageTk
 from utils import Traversable
 
 class Window(Traversable):
+    '''
+    A class wrapper for the turtle screen singleton
+    with extra necessary methods. 
+
+    The class assumes takes one shape, sets up a escape
+    key exit, allows for image based shapes outside of .GIF,
+    and provides convenience iterators for traversal.
+    ''' 
 
     def __init__(self, width, height):
         super().__init__(
@@ -28,6 +36,7 @@ class Window(Traversable):
         self.running = False
 
     def clear(self):
+        # this shouldn't be used because it breaks turtles
         self.screen.clear()
         self.screen.colormode(255)
 

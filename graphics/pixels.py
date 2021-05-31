@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from time import time
 
-from utils import Traversable
+from utils import Traversable, validate_color
 
 # class Drawable:
 #     def draw(self, window):
@@ -12,6 +12,16 @@ from utils import Traversable
 #     pass
 
 class PixelDrawer(Traversable):
+    '''
+    A class that represents a drawable 2D Grid of pixels.
+
+    This class works by having an interal pen move around
+    the screen and adjusting its color to set the proper pixels.
+
+    (NOTE: clearing is not automatically handled by this class. everything
+    must be drawn over. a modication to the implementation can allow this 
+    by having an internal array of colors, but this method is slow anyway)
+    '''
 
     def __init__(self, width, height):
         super().__init__(
@@ -37,18 +47,14 @@ class PixelDrawer(Traversable):
         pass
 
 
-def validate_color(color):
-    # will clamp values in a size 3 tuple
-    # will throw error in tuple smaller than 3
-    # will cutoff tuple if larger than 3
-
-    return tuple(
-        max(0, min(color[n], 255))
-        for n
-        in range(3)
-    )
-
 class Pixels(Traversable):
+    ''' 
+    A class that represents a drawable 2D Grid of pixels.
+
+    The class works by having an internal turtle and whenever
+    a draw call is made, the grid is made into an image and the 
+    turtle's shape becomes the image.
+    '''
 
     def __init__(self, width, height, shapename=None):
         super().__init__(
@@ -71,7 +77,7 @@ class Pixels(Traversable):
             if shapename is None \
             else shapename
 
-        # Create a buffer to modify and convert into 
+        # Create a buffer to modify it and convert into 
         # an image
         self.buffer = np.empty(
             (width, height, 3),

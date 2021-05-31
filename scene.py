@@ -1,9 +1,12 @@
-from window import *
-from pixels import *
+from graphics import *
 
 from utils import random_color
 
 class Scene:
+    ''' 
+    The scene is where the ray marching algorithm is run and 
+    the graphics components are used to display it. 
+    '''
 
     _Pixels = { 'fast': Pixels, 'slow': PixelDrawer }['fast']
 
