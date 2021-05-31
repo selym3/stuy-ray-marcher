@@ -15,7 +15,7 @@ class Measurable:
     ###############################
 
     def __or__(self, other):
-        ''' Intersection of two measurable objects '''
+        ''' Union of two measurable objects '''
         return Measurable(lambda pos:
             min(
                 self.sdf(pos),
@@ -24,7 +24,7 @@ class Measurable:
         )
     
     def __and__(self, other):
-        ''' Union of two measurable objects '''
+        ''' Intersection of two measurable objects '''
         return Measurable(lambda pos:
             max(
                 self.sdf(pos),
