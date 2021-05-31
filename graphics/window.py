@@ -8,7 +8,7 @@ class Window(Traversable):
     A class wrapper for the turtle screen singleton
     with extra necessary methods. 
 
-    The class assumes takes one shape, sets up a escape
+    The class assumes the window takes on one size, sets up a escape
     key exit, allows for image based shapes outside of .GIF,
     and provides convenience iterators for traversal.
     ''' 

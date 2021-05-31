@@ -36,7 +36,7 @@ class Scene:
             for x, y in self.pixels.cors():
                 # x and y may be in the wrong range
                 ray = self.camera.generate_ray(x, y)
-                color = March(ray, self.objects)
+                color = MarchRay(ray, self.objects)
 
                 self.pixels.set_pixel(x, y, color)
         else:

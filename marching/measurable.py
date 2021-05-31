@@ -10,6 +10,8 @@ class Measurable:
         ''' Calculate distance to the end of a camera ray '''
         return self.calculator(pos)
 
+    # needs a way to find a surface normal
+
     ###############################
     # CONSTRUCTIVE SOLID GEOMETRY #
     ###############################
