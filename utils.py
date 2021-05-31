@@ -1,7 +1,13 @@
 import numpy as np
+def Vec3(x, y, z):
+    ''' typedef for numpy vector '''
+    return np.array([x, y, z])
 def mag(V):
-    ''' normalize a numpy vector '''
+    ''' get the magnitude of a numpy vector '''
     return np.linalg.norm(V)
+def norm(V):
+    ''' normalize a numpy vector '''
+    return V/mag(V)
 
 import random
 def random_color():
