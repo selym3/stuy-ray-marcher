@@ -81,7 +81,7 @@ class Pixels(Traversable):
         # an image
         self.buffer = np.empty(
             (width, height, 3),
-            dtype=np.int8
+            dtype=np.uint8
         )
 
     def clear(self):
