@@ -36,6 +36,8 @@ You should submit to the homework server:
 - [x] Move the graphics "library" into its own folder
 - [ ] Implement ray marching algorithm with distance classes that have operator overloading
 - [ ] Create a scene with distance classes, colors, reflections, refractions, glow?
+- [ ] Configuration `constants.py` file
+- [ ] Figure out a good way to handle numpy/Vec3
 - [ ] Create the webpage with techniques, difficulties, instructions
 - [ ] Create a python file with all the code OR a compiled/single python file
 - [ ] Upload to moe, homework server, etc.

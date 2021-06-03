@@ -9,6 +9,9 @@ def norm(V):
     ''' normalize a numpy vector '''
     return V/mag(V)
 
+def clamp(value, min_value, max_value):
+    return min(max_value, max(min_value, value))
+
 import random
 def random_color():
     ''' generates a tuple with 3 components in the range [0,255] '''

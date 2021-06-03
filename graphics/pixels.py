@@ -11,6 +11,25 @@ from utils import Traversable, validate_color
 # class PixelBase(Traversable, Drawable):
 #     pass
 
+class NoPixels(Traversable):
+    ''' 
+    A class that represents a drawable 2D grid of pixels.
+
+    However, this class does no rendering, and is solely for testing
+    '''
+
+    def __init__(self, width, height):
+        super().__init__(
+            0, 0,
+            width, height
+        )
+
+    def set_pixel(self, x, y, color):
+        print(f'({x}, {y}) is {color}')
+
+    def draw(self, window):
+        input("Enter to key to continue...")
+
 class PixelDrawer(Traversable):
     '''
     A class that represents a drawable 2D Grid of pixels.
@@ -56,6 +75,8 @@ class Pixels(Traversable):
     turtle's shape becomes the image.
     '''
 
+    SaveImage = 'frame.png'
+
     def __init__(self, width, height, shapename=None):
         super().__init__(
             0, 0,
@@ -80,7 +101,7 @@ class Pixels(Traversable):
         # Create a buffer to modify it and convert into 
         # an image
         self.buffer = np.empty(
-            (width, height, 3),
+            (height, width, 3),
             dtype=np.uint8
         )
 
@@ -92,10 +113,19 @@ class Pixels(Traversable):
 
     def set_pixel(self, x, y, color):
         color = validate_color(color)
-        self.buffer[x, y] = color
+        self.buffer[y, x] = color
 
     def to_image(self):
-        return Image.fromarray(self.buffer, mode='RGB')
+        image = Image.fromarray(self.buffer, mode='RGB')
+
+        # image = image.resize(300, 300)
+
+        if type(Pixels.SaveImage) == str:
+            image.save(Pixels.SaveImage)
+        
+        return image
+
+
 
     def draw(self, window):
         

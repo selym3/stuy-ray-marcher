@@ -1,18 +1,70 @@
-def SceneSdf(pos, objects):
-    ''' 
-    For an entire scene (highest level), the SDF is the 
-    minimum of all the measurable objects so that the ray
-    marches properly.
-    '''
+from utils import Vec3
+from .measurable import Measurable
+import numpy as np
 
-    min_sdf = float('+inf')
-    for object in objects:
-        sdf = object.sdf(pos)
-        if sdf < min_sdf:
-            min_sdf = sdf
+class MarchConstraints:
+
+    MaxSteps = int(1e3)
+    MaxDistance = 1e3
+    SurfaceEpsilon = 0.1
+
+    def default():
+        return MarchConstraints(
+            MarchConstraints.MaxSteps,
+            MarchConstraints.MaxDistance,
+            MarchConstraints.SurfaceEpsilon
+        )
+
+    def __init__(self, max_steps, max_distance, surface_epsilon):
+        self.max_steps = max_steps
+        self.max_distance = max_distance
+        self.surface_epsilon = surface_epsilon
+
+class RayCollision:
+
+    def missed(marched, attempts=-1):
+        return RayCollision(
+            distance=marched, 
+            collision=None, 
+            normal=None, 
+            attempts=attempts, 
+            hit=False #<-- most important
+        )
+
+    def __init__(self, distance, collision, normal, attempts=-1, hit=True):
+        self.marched = distance
+
+        self.collision = collision
+        self.normal = normal
+
+        self.attempts = attempts
+        self.hit = hit
+
+# TODO: return a raymarch collision object here
+def MarchRay(ray, object, c=MarchConstraints.default()):
+    marched = 0
+
+    for _ in range(c.max_steps):
+        ray_end = ray.get_point(marched)
+
+        from_surface = object.sdf(ray_end)
+        marched += from_surface
     
-    return min_sdf
+        if marched > c.max_distance or from_surface < c.surface_epsilon:
+            break
+            
+    # TODO: implement attempts
+    attempts = -1 
 
-def MarchRay(ray, objects):
-    # TODO: implement marching
-    return (0, 0, 0)
+    # if marched > c.max_distance:
+        # return RayCollision.missed(marched, attempts)
+
+    normal = object.normal(ray_end)
+
+    return RayCollision(
+        distance = marched,
+        collision = ray_end,
+        normal = normal,
+        attempts = attempts,
+        hit = from_surface < c.surface_epsilon
+    )

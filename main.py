@@ -1,7 +1,24 @@
 from scene import *
+from marching import shapes
 
 if __name__ == "__main__":
-    scene = Scene(300, 300)
+    scene = Scene(
+
+        # SCENE SIZE: 
+        300, 300,
+
+        # LIGHT SOURCE:
+        light = Vec3(0, 6, 0),
+        
+        # OBJECTS IN THE SCENE:
+        objects = [
+            box(Vec3(0, 0, 6), Vec3(1, 1, 1)),
+            sphere(Vec3(0, 0, 6), 1.2),
+
+            plane(Vec3(0,1,0), -3),
+        ]
+        
+    )
 
     print("Began execution...")
 
