@@ -1,17 +1,17 @@
 from .measurable import Measurable
-import numpy as np
-from utils import mag, norm
+from utils import Vec3, norm, mod, mag
 
 import math
 
-def mod(primitive, period):
+def repeat(primitive, period):
     ''' this might not work -- needs testing '''
-    def mod_sdf(pos):
-        half_pd = 0.5 * period
-        looped = np.mod(pos + half_pd, period) - half_pd
+    def repeat_sdf(pos):
+        looped = mod(pos, period)
+        half_pd = Vec3(period[0]*0.5, period[1]*0.5, period[2]*0.5)
+        looped = Vec3(looped[0] - half_pd[0], looped[1] - half_pd[1], looped[2] - half_pd[2])
         return primitive.sdf(looped)
 
-    return Measurable(calculator=mod_sdf)
+    return Measurable(calculator=repeat_sdf)
 
 def sphere(position, radius):
     def sphere_sdf(pos):

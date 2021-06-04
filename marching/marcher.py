@@ -1,6 +1,6 @@
+# TODO: clean up this file
+
 from utils import Vec3
-from .measurable import Measurable
-import numpy as np
 
 class MarchConstraints:
 
@@ -40,7 +40,6 @@ class RayCollision:
         self.attempts = attempts
         self.hit = hit
 
-# TODO: return a raymarch collision object here
 def MarchRay(ray, object, c=MarchConstraints.default()):
     marched = 0
 

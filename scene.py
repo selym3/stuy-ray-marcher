@@ -3,8 +3,7 @@ from marching import *
 
 import threading
 
-from utils import Vec3, clamp
-import numpy as np
+from utils import Vec3, clamp, mag
 
 class Scene:
     ''' 
@@ -62,8 +61,8 @@ class Scene:
     
     def get_light(self, c):
         ''' diffuse lighting algorithm '''
-        to_light = self.light - c.collision
-        corrected = c.collision + (0.2 * c.normal)
+        to_light = Vec3(self.light[0] - c.collision[0], self.light[1] - c.collision[1], self.light[2] - c.collision[2])
+        corrected = Vec3(c.collision[0] + 0.2*c.normal[0], c.collision[1] + 0.2*c.normal[1], c.collision[2] + 0.2*c.normal[2])
         light_ray = Ray(corrected, to_light)
 
         ld = light_ray.direction

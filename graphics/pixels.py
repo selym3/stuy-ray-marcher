@@ -75,8 +75,8 @@ class Pixels(Traversable):
     turtle's shape becomes the image.
     '''
 
-    SaveImage = False
-    ResizeImage = False #(300,300)
+    SaveImage = None # 'images/new_frame.png'
+    ResizeImage = (300,300)
 
     def __init__(self, width, height, shapename=None):
         super().__init__(
@@ -119,8 +119,8 @@ class Pixels(Traversable):
     def to_image(self):
         image = Image.fromarray(self.buffer, mode='RGB')
 
-        # if type(Pixels.ResizeImage) == tuple:
-            # image = image.resize(Pixels.ResizeImage)
+        if Pixels.ResizeImage:
+            image = image.resize(Pixels.ResizeImage)
 
         if type(Pixels.SaveImage) == str:
             image.save(Pixels.SaveImage)

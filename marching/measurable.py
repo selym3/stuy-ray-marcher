@@ -19,9 +19,9 @@ class Measurable:
         # Moves a small distance in each direction on the surface
         # of the object to estimate a normal at the position
         normal = Vec3(
-            dist - self.sdf(pos - Vec3( epsilon, 0, 0 )),
-            dist - self.sdf(pos - Vec3( 0, epsilon, 0 )),
-            dist - self.sdf(pos - Vec3( 0, 0, epsilon ))
+            dist - self.sdf(Vec3(pos[0] - epsilon, pos[1], pos[2])),
+            dist - self.sdf(Vec3(pos[0], pos[1] - epsilon, pos[2])),
+            dist - self.sdf(Vec3(pos[0], pos[1], pos[2] - epsilon))
         )
 
         return norm(normal)
@@ -30,9 +30,7 @@ class Measurable:
     # CONSTRUCTIVE SOLID GEOMETRY #
     ###############################
 
-    # TODO: fix
-
-    def __or__(self, other):
+    def __add__(self, other):
         ''' Union of two measurable objects '''
         return Measurable(lambda pos:
             min(
@@ -41,7 +39,7 @@ class Measurable:
             )
         )
     
-    def __and__(self, other):
+    def __mul__(self, other):
         ''' Intersection of two measurable objects '''
         return Measurable(lambda pos:
             max(
@@ -50,10 +48,10 @@ class Measurable:
             )
         )
 
-    def __not__(self):
+    def __invert__(self):
         ''' Negation of a measurable object '''
         return Measurable(lambda pos: -self.sdf(pos))
 
     def __sub__(self, other):
         ''' Difference between two measurable objects '''
-        return self and (not other)
+        return self * (~other)

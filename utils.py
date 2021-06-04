@@ -1,13 +1,30 @@
-import numpy as np
+''' TODO: replace with a vector class '''
+
+import math
+
 def Vec3(x, y, z):
-    ''' typedef for numpy vector '''
-    return np.array([x, y, z])
+    return [x, y, z]
+
+def mod(V, d):
+    return Vec3(V[0]%d[0], V[1]%d[1], V[2]%d[2])
+
+def dot(a, b):
+    ''' dot product of a vector '''
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
+
 def mag(V):
     ''' get the magnitude of a numpy vector '''
-    return np.linalg.norm(V)
+    return math.sqrt(dot(V, V))
+
+def div(V, d):
+    return Vec3(V[0]/d[0], V[1]/d[1], V[2]/d[2])
+
 def norm(V):
     ''' normalize a numpy vector '''
-    return V/mag(V)
+    mv = mag(V)
+    if mv == 0:
+        return V
+    return div(V, Vec3(mv, mv, mv))
 
 def clamp(value, min_value, max_value):
     return min(max_value, max(min_value, value))

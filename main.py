@@ -5,15 +5,15 @@ def main():
     scene = Scene(
 
         # SCENE SIZE: 
-        300, 300,
+        100, 100,
 
         # LIGHT SOURCE:
-        light = Vec3(0, 6, 0),
+        light = Vec3(0, 0, -6),
         
         # OBJECTS IN THE SCENE:
         objects = [
-            box(Vec3(0, 0, 6), Vec3(1, 1, 1)),
-            sphere(Vec3(0, 0, 6), 1.2),
+            box(Vec3(0, 0, 6), Vec3(1, 1, 1)) - 
+            sphere(Vec3(0, 0, 6), 1.5), 
 
             plane(Vec3(0,1,0), -3),
         ]
