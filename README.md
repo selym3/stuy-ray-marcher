@@ -34,12 +34,15 @@ You should submit to the homework server:
 
 - [x] Setup graphics classes to enable pixel-by-pixel drawing
 - [x] Move the graphics "library" into its own folder
-- [ ] Implement ray marching algorithm with distance classes that have operator overloading
-- [ ] Create a scene with distance classes, colors, reflections, refractions, glow?
-- [ ] Configuration `constants.py` file
-- [ ] Figure out a good way to handle numpy/Vec3
+- [ ] Multi-threading?
+- [ ] Deprecate other pixels classes
+- [ ] Clean up where marching class is implemented (clean up)
+- [ ] Implement the rest of the operators for the Measurable class
+- [ ] Implement more shapes / SDF features (FIX Modulo)
+- [ ] Implement more rendering features like colors(?), reflections, refractions(?), glow(?)
+- [ ] Implement a Vec3 class or helper methods for python lists
 - [ ] Create the webpage with techniques, difficulties, instructions
 - [ ] Create a python file with all the code OR a compiled/single python file
 - [ ] Upload to moe, homework server, etc.
-- [ ] Multi-threading?
+- [ ] Configuration `constants.py` file
 - [ ] Document all code
