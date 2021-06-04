@@ -1,7 +1,7 @@
 from scene import *
 from marching import shapes
 
-if __name__ == "__main__":
+def main():
     scene = Scene(
 
         # SCENE SIZE: 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     )
 
     print("Began execution...")
-
+ 
     while scene.is_running():
         start = time()
         scene.execute()
@@ -31,4 +31,7 @@ if __name__ == "__main__":
         print(f"FPS: {1/(end-start)}")
 
     print("...Ended execution")
+
+if __name__ == "__main__":
+    main()
     

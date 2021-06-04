@@ -56,8 +56,8 @@ def MarchRay(ray, object, c=MarchConstraints.default()):
     # TODO: implement attempts
     attempts = -1 
 
-    # if marched > c.max_distance:
-        # return RayCollision.missed(marched, attempts)
+    if marched > c.max_distance:
+        return RayCollision.missed(marched, attempts)
 
     normal = object.normal(ray_end)
 

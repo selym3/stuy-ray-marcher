@@ -66,7 +66,9 @@ class Scene:
         corrected = c.collision + (0.2 * c.normal)
         light_ray = Ray(corrected, to_light)
 
-        light_coeff = clamp(np.dot(c.normal, light_ray.direction), 0, 1)
+        ld = light_ray.direction
+        light_coeff = ld[0]*c.normal[0] + ld[1]*c.normal[1] + ld[2]*c.normal[2]
+        light_coeff = clamp(light_coeff, 0, 1)
 
         light_c = MarchRay(light_ray, self.objects)
         if light_c.marched < mag(to_light):
