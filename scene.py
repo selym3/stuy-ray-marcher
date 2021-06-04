@@ -17,8 +17,6 @@ class Scene:
         'test': NoPixels
     }['fast']
     
-    CanMarch = True
-
     def __init__(self, width, height, objects=[], light=Vec3(0,0,0), camera=None):
         # Turtle API
         self.window = Window(width, height)
@@ -40,62 +38,20 @@ class Scene:
         return self.window.running
 
     def execute_multi(self, thread_count=16):
-        per_thread = max(1, round(self.pixels.height / thread_count))
-
-        def on_thread(start, end):
-            for y in range(start, end):
-                for x in self.pixels.xcors():
-                    ray = self.camera.generate_ray(x, y)
-            
-                    collision = MarchRay(ray, self.objects)
-                    color = self.get_color(collision)
-
-                    self.pixels.set_pixel(x, y, color)
-
-        thread_pool = []
-
-        which = 0
-        while which < thread_count:
-
-            start = which * per_thread
-            end = (which + 1) * per_thread
-
-            start = clamp(start, 0, self.pixels.height)
-            end = clamp(end, 0, self.pixels.height)
-
-            which += 1
-            if which == thread_count:
-                end = self.pixels.height
-
-            thread = threading.Thread(target=on_thread, args=(start, end))
-            thread_pool += [thread]
-            thread.start()
-        
-        for thread in thread_pool:
-            thread.join()
-        
+        self.update_pixels_multi(thread_count)
         self.window.draw(self.pixels)
 
-
     def execute(self):
-        for x, y in self.pixels.cors():
-            ray = self.camera.generate_ray(x, y)
-            
-            collision = MarchRay(ray, self.objects)
-            color = self.get_color(collision)
-
-            self.pixels.set_pixel(x, y, color)
-
+        self.update_pixels()
         self.window.draw(self.pixels)
 
     def get_color(self, c):
         if not c.hit:
-            return Vec3(0,0,0)
+            return Vec3(0,1.5*c.attempts,0)
             
-        # normal_color = np.abs((c.normal * 255))
         light_color = self.get_light(c)
 
-        return light_color # * normal_color
+        return light_color
     
     def get_light(self, c):
         ''' diffuse lighting algorithm '''
@@ -115,3 +71,43 @@ class Scene:
         light_coeff = int(light_coeff * 255)
 
         return Vec3(light_coeff,light_coeff,light_coeff)
+
+    def update_pixels(self):
+        for x, y in self.pixels.cors():
+            ray = self.camera.generate_ray(x, y)
+            
+            collision = MarchRay(ray, self.objects)
+            color = self.get_color(collision)
+
+            self.pixels.set_pixel(x, y, color)
+
+    def update_pixels_multi(self, thread_count):
+        thread_count = clamp(thread_count, 0, self.pixels.height)
+        per_thread = round(self.pixels.height / thread_count)
+
+        def on_thread(start, end):
+            for y in range(start, end):
+                for x in self.pixels.xcors():
+                    ray = self.camera.generate_ray(x, y)
+            
+                    collision = MarchRay(ray, self.objects)
+                    color = self.get_color(collision)
+
+                    self.pixels.set_pixel(x, y, color)
+
+        thread_pool = []
+
+        which = 0
+        for which in range(thread_count):
+            start = clamp((which + 0) * per_thread, 0, self.pixels.height)
+            end   = clamp((which + 1) * per_thread, 0, self.pixels.height)
+
+            if which == thread_count:
+                end = self.pixels.height
+
+            thread = threading.Thread(target=on_thread, args=(start, end))
+            thread_pool += [thread]
+            thread.start()
+
+        for thread in thread_pool:
+            thread.join()

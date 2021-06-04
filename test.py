@@ -1,4 +1,4 @@
 import cProfile
 from main import main
 
-cProfile.run("main()", sort='cumulative')
+cProfile.run("main()", sort='tottime')

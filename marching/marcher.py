@@ -6,7 +6,7 @@ class MarchConstraints:
 
     MaxSteps = int(1e3)
     MaxDistance = 1e3
-    SurfaceEpsilon = 0.1
+    SurfaceEpsilon = 0.01
 
     def default():
         return MarchConstraints(
@@ -42,19 +42,19 @@ class RayCollision:
 
 def MarchRay(ray, object, c=MarchConstraints.default()):
     marched = 0
+    attempts = 0
 
     for _ in range(c.max_steps):
         ray_end = ray.get_point(marched)
 
         from_surface = object.sdf(ray_end)
         marched += from_surface
-    
+
+        attempts += 1
+
         if marched > c.max_distance or from_surface < c.surface_epsilon:
             break
             
-    # TODO: implement attempts
-    attempts = -1 
-
     if marched > c.max_distance:
         return RayCollision.missed(marched, attempts)
 

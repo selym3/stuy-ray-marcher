@@ -4,7 +4,6 @@ from utils import Vec3, norm, mod, mag
 import math
 
 def repeat(primitive, period):
-    ''' this might not work -- needs testing '''
     def repeat_sdf(pos):
         looped = mod(pos, period)
         half_pd = Vec3(period[0]*0.5, period[1]*0.5, period[2]*0.5)
@@ -27,6 +26,7 @@ def box(position, size):
         dx = max(abs(pos[0] - position[0]) - size[0], 0)
         dy = max(abs(pos[1] - position[1]) - size[1], 0)
         dz = max(abs(pos[2] - position[2]) - size[2], 0)
+
         return math.sqrt(dx*dx + dy*dy + dz*dz)
 
     return Measurable(calculator=box_sdf)

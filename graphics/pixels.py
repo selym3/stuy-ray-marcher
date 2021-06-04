@@ -5,32 +5,39 @@ from time import time
 
 from utils import Traversable, validate_color
 
-# class Drawable:
-#     def draw(self, window):
-#         raise NotImplementedError
-# class PixelBase(Traversable, Drawable):
-#     pass
+class PixelBase(Traversable):
+    '''
+    A class that represents a drawable 2D grid of pixels.
 
-class NoPixels(Traversable):
+    This base class is not technically necessary but it shows
+    what methods are common and enforces the Traversable/width, height
+    rather than leaving it to duck typing
+    '''
+    def __init__(self, width, height):
+        super().__init__(0, 0, width, height)
+        self.width, self.height = width, height
+
+    def set_pixel(self, x, y, color):
+        raise NotImplementedError
+    def draw(self, window):
+        raise NotImplementedError
+
+class NoPixels(PixelBase):
     ''' 
     A class that represents a drawable 2D grid of pixels.
 
-    However, this class does no rendering, and is solely for testing
+    However, this class does no rendering, and is solely for testing.
     '''
 
     def __init__(self, width, height):
-        super().__init__(
-            0, 0,
-            width, height
-        )
+        super().__init__(width, height)
 
     def set_pixel(self, x, y, color):
         print(f'({x}, {y}) is {color}')
-
     def draw(self, window):
         input("Enter to key to continue...")
 
-class PixelDrawer(Traversable):
+class PixelDrawer(PixelBase):
     '''
     A class that represents a drawable 2D Grid of pixels.
 
@@ -43,14 +50,8 @@ class PixelDrawer(Traversable):
     '''
 
     def __init__(self, width, height):
-        super().__init__(
-            -width//2, -height//2,
-            +width//2, +height//2
-        )
+        super().__init__(width, height)
         
-        self.width = width
-        self.height = height
-
         self.pen = turtle.Turtle()
         self.pen.ht()
         self.pen.pu()
@@ -59,14 +60,13 @@ class PixelDrawer(Traversable):
         self.pen.clear() 
 
     def set_pixel(self, x, y, color):
-        self.pen.goto(x, y)
+        self.pen.goto(x - self.width//2, y - self.width//2)
         self.pen.dot(1, color)
     
     def draw(self, window):
         pass
 
-
-class Pixels(Traversable):
+class Pixels(PixelBase):
     ''' 
     A class that represents a drawable 2D Grid of pixels.
 
@@ -75,17 +75,11 @@ class Pixels(Traversable):
     turtle's shape becomes the image.
     '''
 
-    SaveImage = None # 'images/new_frame.png'
-    ResizeImage = None # (300,300)
+    SaveImage = 'images/new_frame.png'
+    ResizeImage = None #(300,300)
 
     def __init__(self, width, height, shapename=None):
-        super().__init__(
-            0, 0,
-            width, height
-        )
-
-        self.width = width
-        self.height = height
+        super().__init__(width, height)
 
         # Setup turtle
         self.pen = turtle.Turtle()
@@ -113,6 +107,7 @@ class Pixels(Traversable):
         self.pen.ht()
 
     def set_pixel(self, x, y, color):
+        # Place a color in a numpy array
         color = validate_color(color)
         self.buffer[y, x] = color
 
