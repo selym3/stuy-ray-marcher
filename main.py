@@ -5,7 +5,7 @@ def main():
     scene = Scene(
 
         # SCENE SIZE: 
-        100, 100,
+        300, 300,
 
         # LIGHT SOURCE:
         light = Vec3(0, 0, -6),
@@ -24,7 +24,7 @@ def main():
  
     while scene.is_running():
         start = time()
-        scene.execute()
+        scene.execute_multi()
         end = time()
 
         print(f"Took {end-start}")

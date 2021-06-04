@@ -76,7 +76,7 @@ class Pixels(Traversable):
     '''
 
     SaveImage = None # 'images/new_frame.png'
-    ResizeImage = (300,300)
+    ResizeImage = None # (300,300)
 
     def __init__(self, width, height, shapename=None):
         super().__init__(

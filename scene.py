@@ -39,6 +39,44 @@ class Scene:
     def is_running(self):
         return self.window.running
 
+    def execute_multi(self, thread_count=16):
+        per_thread = max(1, round(self.pixels.height / thread_count))
+
+        def on_thread(start, end):
+            for y in range(start, end):
+                for x in self.pixels.xcors():
+                    ray = self.camera.generate_ray(x, y)
+            
+                    collision = MarchRay(ray, self.objects)
+                    color = self.get_color(collision)
+
+                    self.pixels.set_pixel(x, y, color)
+
+        thread_pool = []
+
+        which = 0
+        while which < thread_count:
+
+            start = which * per_thread
+            end = (which + 1) * per_thread
+
+            start = clamp(start, 0, self.pixels.height)
+            end = clamp(end, 0, self.pixels.height)
+
+            which += 1
+            if which == thread_count:
+                end = self.pixels.height
+
+            thread = threading.Thread(target=on_thread, args=(start, end))
+            thread_pool += [thread]
+            thread.start()
+        
+        for thread in thread_pool:
+            thread.join()
+        
+        self.window.draw(self.pixels)
+
+
     def execute(self):
         for x, y in self.pixels.cors():
             ray = self.camera.generate_ray(x, y)

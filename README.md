@@ -34,9 +34,11 @@ You should submit to the homework server:
 
 - [x] Setup graphics classes to enable pixel-by-pixel drawing
 - [x] Move the graphics "library" into its own folder
-- [ ] Multi-threading?
+- [x] Multi-threading?
+- [ ] Add better way to profile performance??
 - [ ] Deprecate other pixels classes
 - [ ] Clean up where marching class is implemented (clean up)
+- [ ] Make it easy to save frames (maybe only render once)
 - [ ] Implement the rest of the operators for the Measurable class
 - [ ] Implement more shapes / SDF features (FIX Modulo)
 - [ ] Implement more rendering features like colors(?), reflections, refractions(?), glow(?)
