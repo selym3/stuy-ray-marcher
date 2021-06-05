@@ -26,7 +26,8 @@ class Scene:
         if camera is None:
             camera = Camera(
                 width, height, 
-                position=(0,0,0)
+                position=(0,0,0),
+                fov=90
             )
 
         self.camera = camera 
@@ -47,7 +48,23 @@ class Scene:
 
     def get_color(self, c):
         if not c.hit:
-            return Vec3(0,1.5*c.attempts,0)
+            # Configurable options
+            max_glow_dist = 1
+            glow_power = 0.1
+            glow_color = Vec3(255, 0, 0) 
+
+            # Calculate glow
+            glow_power *= 255
+            glow_coeff = c.closest/max_glow_dist
+            glow_coeff *= (256 - glow_power)
+
+            glow_color = Vec3(
+                glow_color[0] / glow_coeff,
+                glow_color[1] / glow_coeff,
+                glow_color[2] / glow_coeff
+            )
+
+            return glow_color
             
         light_color = self.get_light(c)
 
@@ -83,7 +100,7 @@ class Scene:
 
     def update_pixels_multi(self, thread_count):
         thread_count = clamp(thread_count, 0, self.pixels.height)
-        per_thread = round(self.pixels.height / thread_count)
+        per_thread = int( 0.5 + self.pixels.height / thread_count)
 
         def on_thread(start, end):
             for y in range(start, end):
@@ -102,7 +119,7 @@ class Scene:
             start = clamp((which + 0) * per_thread, 0, self.pixels.height)
             end   = clamp((which + 1) * per_thread, 0, self.pixels.height)
 
-            if which == thread_count:
+            if which+1 == thread_count:
                 end = self.pixels.height
 
             thread = threading.Thread(target=on_thread, args=(start, end))

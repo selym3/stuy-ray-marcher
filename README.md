@@ -35,7 +35,7 @@ You should submit to the homework server:
 - [x] Setup graphics classes to enable pixel-by-pixel drawing
 - [x] Move the graphics "library" into its own folder
 - [ ] Improve mult-threading scheme (probably not necessary cause more than 16 threads doesnt affect performance)?
-- [ ] Finish glow
+- [ ] Finish glow (make glow struct)
 - [ ] Add better way to profile performance??
 - [ ] Deprecate other pixels classes
 - [ ] Clean up where marching class is implemented (clean up)

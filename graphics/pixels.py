@@ -76,7 +76,7 @@ class Pixels(PixelBase):
     '''
 
     SaveImage = 'images/new_frame.png'
-    ResizeImage = None #(300,300)
+    ResizeImage = None # (300,300)
 
     def __init__(self, width, height, shapename=None):
         super().__init__(width, height)

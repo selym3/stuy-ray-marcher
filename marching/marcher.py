@@ -22,41 +22,40 @@ class MarchConstraints:
 
 class RayCollision:
 
-    def missed(marched, attempts=-1):
+    def missed(marched, closest=-1):
         return RayCollision(
             distance=marched, 
             collision=None, 
             normal=None, 
-            attempts=attempts, 
+            closest=closest, 
             hit=False #<-- most important
         )
 
-    def __init__(self, distance, collision, normal, attempts=-1, hit=True):
+    def __init__(self, distance, collision, normal, closest=-1, hit=True):
         self.marched = distance
 
         self.collision = collision
         self.normal = normal
 
-        self.attempts = attempts
+        self.closest = closest
         self.hit = hit
 
 def MarchRay(ray, object, c=MarchConstraints.default()):
     marched = 0
-    attempts = 0
+    closest = float('+inf')
 
     for _ in range(c.max_steps):
         ray_end = ray.get_point(marched)
 
         from_surface = object.sdf(ray_end)
+        closest = min(from_surface, closest)
         marched += from_surface
-
-        attempts += 1
 
         if marched > c.max_distance or from_surface < c.surface_epsilon:
             break
             
     if marched > c.max_distance:
-        return RayCollision.missed(marched, attempts)
+        return RayCollision.missed(marched, closest)
 
     normal = object.normal(ray_end)
 
@@ -64,6 +63,6 @@ def MarchRay(ray, object, c=MarchConstraints.default()):
         distance = marched,
         collision = ray_end,
         normal = normal,
-        attempts = attempts,
+        closest = closest,
         hit = from_surface < c.surface_epsilon
     )
