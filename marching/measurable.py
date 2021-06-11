@@ -1,4 +1,4 @@
-from utils import Vec3, norm
+from vec3 import Vec3
 
 class Measurable:
     def __init__(self, calculator):
@@ -12,19 +12,20 @@ class Measurable:
         ''' Calculate distance to the end of a camera ray '''
         return self.calculator(pos)
 
-    def normal(self, pos, epsilon=0.1):
+    def normal(self, pos, epsilon=0.01):
         ''' Calculates a collision normal at an assumed collision point '''
         dist = self.sdf(pos)
 
+
         # Moves a small distance in each direction on the surface
         # of the object to estimate a normal at the position
-        normal = Vec3(
-            dist - self.sdf(Vec3(pos[0] - epsilon, pos[1], pos[2])),
-            dist - self.sdf(Vec3(pos[0], pos[1] - epsilon, pos[2])),
-            dist - self.sdf(Vec3(pos[0], pos[1], pos[2] - epsilon))
+        normal = dist - Vec3(
+            self.sdf(pos - Vec3(epsilon, 0, 0)),
+            self.sdf(pos - Vec3(0, epsilon, 0)),
+            self.sdf(pos - Vec3(0, 0, epsilon))
         )
 
-        return norm(normal)
+        return normal.normal()
 
     ###############################
     # CONSTRUCTIVE SOLID GEOMETRY #
@@ -48,10 +49,10 @@ class Measurable:
             )
         )
 
-    def __invert__(self):
+    def __neg__(self):
         ''' Negation of a measurable object '''
         return Measurable(lambda pos: -self.sdf(pos))
 
     def __sub__(self, other):
         ''' Difference between two measurable objects '''
-        return self * (~other)
+        return self * (-other)

@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from time import time
 
-from utils import Traversable, validate_color
+from utils import Traversable, toColor
 
 class PixelBase(Traversable):
     '''
@@ -21,21 +21,6 @@ class PixelBase(Traversable):
         raise NotImplementedError
     def draw(self, window):
         raise NotImplementedError
-
-class NoPixels(PixelBase):
-    ''' 
-    A class that represents a drawable 2D grid of pixels.
-
-    However, this class does no rendering, and is solely for testing.
-    '''
-
-    def __init__(self, width, height):
-        super().__init__(width, height)
-
-    def set_pixel(self, x, y, color):
-        print(f'({x}, {y}) is {color}')
-    def draw(self, window):
-        input("Enter to key to continue...")
 
 class PixelDrawer(PixelBase):
     '''
@@ -75,8 +60,8 @@ class Pixels(PixelBase):
     turtle's shape becomes the image.
     '''
 
-    SaveImage = 'images/new_frame.png'
-    ResizeImage = None # (300,300)
+    SaveImage = None # 'images/new_frame.png'
+    ResizeImage = (300,300)
 
     def __init__(self, width, height, shapename=None):
         super().__init__(width, height)
@@ -108,7 +93,7 @@ class Pixels(PixelBase):
 
     def set_pixel(self, x, y, color):
         # Place a color in a numpy array
-        color = validate_color(color)
+        color = toColor(color)
         self.buffer[y, x] = color
 
     def to_image(self):

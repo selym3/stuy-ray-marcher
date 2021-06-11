@@ -1,5 +1,5 @@
 from .ray import Ray 
-from utils import Vec3
+from vec3 import Vec3
 
 import math
 

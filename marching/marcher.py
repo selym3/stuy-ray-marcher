@@ -1,7 +1,5 @@
 # TODO: clean up this file
 
-from utils import Vec3
-
 class MarchConstraints:
 
     MaxSteps = int(1e3)
@@ -44,6 +42,8 @@ def MarchRay(ray, object, c=MarchConstraints.default()):
     marched = 0
     closest = float('+inf')
 
+    hit = False
+
     for _ in range(c.max_steps):
         ray_end = ray.get_point(marched)
 
@@ -51,18 +51,17 @@ def MarchRay(ray, object, c=MarchConstraints.default()):
         closest = min(from_surface, closest)
         marched += from_surface
 
-        if marched > c.max_distance or from_surface < c.surface_epsilon:
+        if from_surface < c.surface_epsilon:
+            hit = True
+            break
+        if marched > c.max_distance:
+            hit = False
             break
             
-    if marched > c.max_distance:
-        return RayCollision.missed(marched, closest)
-
-    normal = object.normal(ray_end)
-
     return RayCollision(
         distance = marched,
         collision = ray_end,
-        normal = normal,
+        normal = None if hit else object.normal(hit),
         closest = closest,
-        hit = from_surface < c.surface_epsilon
+        hit = hit
     )
