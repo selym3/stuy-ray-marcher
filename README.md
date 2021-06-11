@@ -32,18 +32,22 @@ You should submit to the homework server:
 
 ## What's left?
 
-- [x] Setup graphics classes to enable pixel-by-pixel drawing
-- [x] Move the graphics "library" into its own folder
-- [ ] Improve mult-threading scheme (probably not necessary cause more than 16 threads doesnt affect performance)?
-- [ ] Finish glow (make glow struct)
-- [ ] Add better way to profile performance??
-- [ ] Deprecate other pixels classes
+- [ ] Profile vec3 class
+- [ ] Clean multithreading code
+- [ ] Clean pixel code
+
+- [ ] Add phong lighting
+- [ ] Add shadows
+- [ ] Add reflection and refraction
+- [ ] ReAdd glow??
+
 - [ ] Clean up where marching class is implemented (clean up)
 - [ ] Make it easy to save frames (maybe only render once)
+
 - [ ] Implement the rest of the operators for the Measurable class
 - [ ] Implement more shapes / SDF features (FIX Modulo)
 - [ ] Implement more rendering features like colors(?), reflections, refractions(?), glow(?)
-- [ ] Implement a Vec3 class or helper methods for python lists
+
 - [ ] Create the webpage with techniques, difficulties, instructions
 - [ ] Create a python file with all the code OR a compiled/single python file
 - [ ] Upload to moe, homework server, etc.

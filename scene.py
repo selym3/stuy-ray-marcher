@@ -26,7 +26,7 @@ class Scene:
         if camera is None:
             camera = Camera(
                 width, height, 
-                position=(0,0,0),
+                position=Vec3(0,0,0),
                 fov=90
             )
 
@@ -47,7 +47,7 @@ class Scene:
         self.window.draw(self.pixels)
 
     def get_pixel(self, x, y):
-        ray = self.camera.generate_ray(x, y)
+        ray = self.camera.get_ray(x, y)
         c = MarchRay(ray, self.objects)
 
         if c.hit:

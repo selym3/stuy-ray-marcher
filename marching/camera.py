@@ -6,32 +6,24 @@ import math
 class Camera:
 
     def __init__(self, width, height, position, angle=(0,0,0), fov=90.0):
-        '''
-        TODO: use this data to take into account camera position
-        and angle and fov
-        '''
-
         self.width, self.height = width, height
+        self.ratio = height/width
+
+        self.position = position
+        # self.yaw, self.pitch, self.roll = angle
+        self.angle = angle
         
-        self.position = Vec3(*position)
-        self.yaw, self.pitch, self.roll = angle
         self.fov = fov
+        self.fov_scalar = math.tan(math.radians(self.fov/2)) 
 
-    def generate_ray(self, pixel_x, pixel_y):
-        ''' TODO: change this to take into account fov and pos, angle '''
-        
-        ratio = self.height/self.width
-        angle = math.tan(math.radians(self.fov/2)) 
+    def get_ray(self, pixel_x, pixel_y):
+        sx = self.fov_scalar * (2 * ((pixel_x + 0.5) / self.width) - 1)
 
-        sx = 2 * ((pixel_x + 0.5) / self.width) - 1
-        sx *= 1
-        sx *= angle
+        sy = self.ratio * self.fov_scalar * (1 - 2 * (pixel_y + 0.5) / self.height)
 
-        sy = 1 - 2 * (pixel_y + 0.5) / self.height
-        sy *= ratio
-        sy *= angle
+        direction = Vec3(sx, sy, +1).rotate(*self.angle)
 
         return Ray(
             self.position,
-            Vec3(sx, sy, +1)
+            direction
         )
