@@ -2,8 +2,8 @@
 
 class MarchConstraints:
 
-    MaxSteps = int(1e3)
-    MaxDistance = 1e3
+    MaxSteps = 64
+    MaxDistance = 64
     SurfaceEpsilon = 0.01
 
     def default():

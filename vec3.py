@@ -1,4 +1,4 @@
-USE_CPP = True
+USE_CPP = False
 
 if USE_CPP:
     import linalg

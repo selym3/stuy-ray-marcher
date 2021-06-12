@@ -6,6 +6,8 @@ import threading
 from utils import clamp
 from vec3 import Vec3
 
+import copy
+
 class Scene:
     ''' 
     The scene is where the ray marching algorithm is run and 
@@ -37,12 +39,25 @@ class Scene:
 
         self.light = light
 
+        self.t = 0
+
     def is_running(self):
         return self.window.running
+
+    def update_camera(self):
+        self.camera.position = Vec3(
+            math.cos(self.t) * 4,
+            3,
+            math.sin(self.t) * 4
+        )
+
+        self.camera.angle = (0, self.t, 0)
+        self.t += 0.05 * 4
 
     def execute_multi(self, thread_count=16):
         self.update_pixels_multi(thread_count)
         self.window.draw(self.pixels)
+        self.update_camera()
 
     def execute(self):
         self.update_pixels()
@@ -67,11 +82,26 @@ class Scene:
         per_thread = int( 0.5 + self.pixels.height / thread_count)
 
         def on_thread(start, end):
+            camera = copy.deepcopy(self.camera)
+            light = copy.deepcopy(self.light)
+            objects = copy.deepcopy(self.objects)
+
+            xcors = list(self.pixels.xcors())
+
             for y in range(start, end):
-                for x in self.pixels.xcors():
+                for x in xcors:
                     try:
-                        color = self.get_pixel(x, y)
+                        ray = camera.get_ray(x, y)
+                        c = MarchRay(ray, objects)
+
+                        if c.hit:
+                            color = light.get_lighting(objects, c)
+                            # return Vec3(255, 255, 255)
+                        else:
+                            color = Vec3(0,0,0)
+                        
                         self.pixels.set_pixel(x, y, color)
+
                     except Exception as e: print(e)
 
         thread_pool = []
@@ -89,4 +119,6 @@ class Scene:
             thread.start()
 
         for thread in thread_pool:
+            while thread.is_alive():
+                self.window.draw(self.pixels)
             thread.join()
