@@ -61,7 +61,7 @@ def MarchRay(ray, object, c=MarchConstraints.default()):
     return RayCollision(
         distance = marched,
         collision = ray_end,
-        normal = None if hit else object.normal(hit),
+        normal = object.normal(ray_end) if hit else None,
         closest = closest,
         hit = hit
     )

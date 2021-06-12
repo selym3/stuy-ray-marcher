@@ -14,10 +14,11 @@ class Scene:
 
     _Pixels = { 
         'fast': Pixels, 
-        'slow': PixelDrawer
+        'slow': PixelDrawer,
+        'test': PixelBase
     }['fast']
     
-    def __init__(self, width, height, objects=[], light=Vec3(0,0,0), camera=None):
+    def __init__(self, width, height, light, objects, camera=None):
         # Turtle API
         self.window = Window(width, height)
         self.pixels = Scene._Pixels(width, height)
@@ -31,7 +32,8 @@ class Scene:
             )
 
         self.camera = camera 
-        self.objects = group(objects)
+        # self.objects = group(objects)
+        self.objects = objects
 
         self.light = light
 
@@ -51,7 +53,8 @@ class Scene:
         c = MarchRay(ray, self.objects)
 
         if c.hit:
-            return Vec3(255, 255, 255)
+            return self.light.get_lighting(self.objects, c)
+            # return Vec3(255, 255, 255)
         else:
             return Vec3(0,0,0)
 
@@ -66,8 +69,10 @@ class Scene:
         def on_thread(start, end):
             for y in range(start, end):
                 for x in self.pixels.xcors():
-                    color = self.get_pixel(x, y)
-                    self.pixels.set_pixel(x, y, color)
+                    try:
+                        color = self.get_pixel(x, y)
+                        self.pixels.set_pixel(x, y, color)
+                    except Exception as e: print(e)
 
         thread_pool = []
 

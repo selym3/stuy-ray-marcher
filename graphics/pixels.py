@@ -18,9 +18,11 @@ class PixelBase(Traversable):
         self.width, self.height = width, height
 
     def set_pixel(self, x, y, color):
-        raise NotImplementedError
+        # raise NotImplementedError
+        pass
     def draw(self, window):
-        raise NotImplementedError
+        # raise NotImplementedError
+        pass
 
 class PixelDrawer(PixelBase):
     '''
@@ -60,7 +62,7 @@ class Pixels(PixelBase):
     turtle's shape becomes the image.
     '''
 
-    SaveImage = None # 'images/new_frame.png'
+    SaveImage = 'images/new_frame.png'
     ResizeImage = (300,300)
 
     def __init__(self, width, height, shapename=None):
