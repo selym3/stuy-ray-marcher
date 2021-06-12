@@ -12,6 +12,21 @@ class Measurable:
         ''' Calculate distance to the end of a camera ray '''
         return self.calculator(pos)
 
+    '''
+    Vec3d normal(const Vec3d& pos) const {
+        static const Vec3d xyy(+1, -1, -1);
+        static const Vec3d yyx(-1, -1, +1);
+        static const Vec3d yxy(-1, +1, -1);
+        static const Vec3d xxx(+1, +1, +1);
+        
+        return (
+            xyy * operator()(pos + NORM_EPS * xyy) += 
+            yyx * operator()(pos + NORM_EPS * yyx) += 
+            yxy * operator()(pos + NORM_EPS * yxy) += 
+            xxx * operator()(pos + NORM_EPS * xxx)).normalize();
+        }
+    '''
+
     def normal(self, pos, epsilon=0.01):
         ''' Calculates a collision normal at an assumed collision point '''
         dist = self.sdf(pos)
