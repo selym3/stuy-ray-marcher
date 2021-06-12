@@ -4,8 +4,8 @@ from utils import Vec3
 
 class MarchConstraints:
 
-    MaxSteps = int(1e3)
-    MaxDistance = 1e3
+    MaxSteps = 64
+    MaxDistance = 64
     SurfaceEpsilon = 0.01
 
     def default():
@@ -44,10 +44,12 @@ def MarchRay(ray, object, c=MarchConstraints.default()):
     marched = 0
     closest = float('+inf')
 
+    sdf = object.sdf
+    gp = ray.get_point
     for _ in range(c.max_steps):
-        ray_end = ray.get_point(marched)
+        ray_end = gp(marched)
 
-        from_surface = object.sdf(ray_end)
+        from_surface = sdf(ray_end)
         closest = min(from_surface, closest)
         marched += from_surface
 

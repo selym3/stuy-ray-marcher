@@ -75,8 +75,8 @@ class Pixels(PixelBase):
     turtle's shape becomes the image.
     '''
 
-    SaveImage = 'images/new_frame.png'
-    ResizeImage = None # (300,300)
+    SaveImage = None # 'images/new_frame.png'
+    ResizeImage = (300,300)
 
     def __init__(self, width, height, shapename=None):
         super().__init__(width, height)
