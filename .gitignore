@@ -4,3 +4,5 @@ profiles
 test.sh
 test.py
 test_threads.py
+testlib.py
+.vscode
