@@ -7,22 +7,22 @@ but will not often be changed when designing a scene.
 The size of the turtle window / the area of the turtle
 window in which rendering takes place (in pixels)
 '''
-WIDTH = 480
-HEIGHT = 480
+WIDTH = 1024
+HEIGHT = 1024
 
 '''
 The amount of pixels that will have a color calculated. These will
 be packed into the width , height. The resolution can larger
 than or greater than the real width, height. 
 '''
-RESOLUTION = (120, 120)
+RESOLUTION = (512, 512)
 
 '''
 A string that is the path to an image. The current frame will 
 be saved inside of it. If this is False/None/ not a string it 
 will not save
 '''
-SAVE_AS = 'frame.png'
+SAVE_AS = None # 'images/complex-cube.png'
 
 '''
 These are configuration options for the camera.

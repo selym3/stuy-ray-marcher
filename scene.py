@@ -1,3 +1,7 @@
+'''
+See examples.py, constants.py, or main.py for configurable code.
+'''
+
 from graphics import *
 from marching import *
 
@@ -20,7 +24,7 @@ class Scene:
         'test': PixelBase
     }['fast']
     
-    def __init__(self, lights, object):
+    def __init__(self, object, lights):
         # Turtle Rendering
         self.window = Window(WIDTH, HEIGHT)
         self.pixels = Scene._Pixels(RESOLUTION[0], RESOLUTION[1])
