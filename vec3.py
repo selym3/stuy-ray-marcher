@@ -1,3 +1,7 @@
+'''
+See examples.py, constants.py, or main.py for configurable code.
+'''
+
 import math
 
 def IsVector(obj):

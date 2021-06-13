@@ -1,5 +1,6 @@
 import turtle
-from PIL import ImageTk
+
+from .ImageTk import PhotoImage
 
 from utils import Traversable
 
@@ -48,7 +49,7 @@ class Window(Traversable):
 
     def add_pil(self, name, im):
         # Avoid saving a PIL.Image object as a gif to be used
-        self.screen._shapes[name] = turtle.Shape("image", ImageTk.PhotoImage(im))
+        self.screen._shapes[name] = turtle.Shape("image", PhotoImage(im))
 
     def del_pil(self, name):
         # Delete a shape -- not really a necessary method

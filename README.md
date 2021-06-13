@@ -30,26 +30,18 @@ You should submit to the homework server:
   - any instructions on how to recreate your project beyond simply loading it into Thonny and pressing Run.
   - ...and any other comments about the project you wish to share.
 
-## What's left?
+## Requirements
 
-- [ ] Profile vec3 class
-- [ ] Clean multithreading code
-- [ ] Clean pixel code
+- turtle
+- pillow (Python Imaging Library)
+- tkinter (seemed to be there if Turtle worked)
 
-- [ ] Add phong lighting
-- [ ] Add shadows
-- [ ] Add reflection and refraction
-- [ ] ReAdd glow??
+`pip install -r requirements.txt`
 
-- [ ] Clean up where marching class is implemented (clean up)
-- [ ] Make it easy to save frames (maybe only render once)
+## Instructions
 
-- [ ] Implement the rest of the operators for the Measurable class
-- [ ] Implement more shapes / SDF features (FIX Modulo)
-- [ ] Implement more rendering features like colors(?), reflections, refractions(?), glow(?)
+- Visit `examples.py` to see the function names of the example scenes and how to make a scene
+- Visit `main.py` to see where to call the example functions or where to put your own
+- Visit `constants.py` to configure some backend stuff (threading, lighting, screen size)
 
-- [ ] Create the webpage with techniques, difficulties, instructions
-- [ ] Create a python file with all the code OR a compiled/single python file
-- [ ] Upload to moe, homework server, etc.
-- [ ] Configuration `constants.py` file
-- [ ] Document all code
+`python main.py`

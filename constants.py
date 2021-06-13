@@ -22,7 +22,7 @@ A string that is the path to an image. The current frame will
 be saved inside of it. If this is False/None/ not a string it 
 will not save
 '''
-SAVE_AS = None # 'images/complex-cube.png'
+SAVE_AS = None # 'your-scene.png'
 
 '''
 These are configuration options for the camera.
@@ -38,7 +38,7 @@ ANGLE = (0, 0, 0)
 These are threading options. 
 
 Threads is the number of threads in the threadpool. Animate fill will render 
-the progress of a frame before it is finished. The effect is enhanced by a greater/prime
+the progress of a frame before it is finished, otherwise you will have to wait with a blank screen. The effect is enhanced by a greater/prime
 number of threads.
 '''
 THREADS = 17
@@ -64,3 +64,9 @@ SPECULAR = 0.3
 DIFFUSE = 1
 AMBIENT = 0.01
 SHININESS = 96
+
+'''
+If camera movement, animation, or anything that necessitates multiple
+frames is added, it is necessary to turn on continuous mode
+'''
+CONTINUOUS = False
