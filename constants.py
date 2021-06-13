@@ -7,15 +7,15 @@ but will not often be changed when designing a scene.
 The size of the turtle window / the area of the turtle
 window in which rendering takes place (in pixels)
 '''
-WIDTH = 1024
-HEIGHT = 1024
+WIDTH = 512
+HEIGHT = 512
 
 '''
 The amount of pixels that will have a color calculated. These will
 be packed into the width , height. The resolution can larger
 than or greater than the real width, height. 
 '''
-RESOLUTION = (512, 512)
+RESOLUTION = (256, 256)
 
 '''
 A string that is the path to an image. The current frame will 
@@ -40,6 +40,9 @@ These are threading options.
 Threads is the number of threads in the threadpool. Animate fill will render 
 the progress of a frame before it is finished, otherwise you will have to wait with a blank screen. The effect is enhanced by a greater/prime
 number of threads.
+
+The threads mean less on Windows because the multiprocessing library didn't work the same on 
+windows as it did on Linux.
 '''
 THREADS = 17
 ANIMATE_FILL = True
