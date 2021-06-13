@@ -3,8 +3,6 @@ from marching import *
 
 import multiprocessing
 
-import time as TimeModule
-
 from utils import clamp
 from vec3 import Vec3
 
@@ -25,11 +23,11 @@ class Scene:
     def __init__(self, lights, object):
         # Turtle Rendering
         self.window = Window(WIDTH, HEIGHT)
-        self.pixels = Scene._Pixels(WIDTH, HEIGHT)
+        self.pixels = Scene._Pixels(RESOLUTION[0], RESOLUTION[1])
         
         # Raymarching Calculations
         self.camera = Camera(
-            WIDTH, HEIGHT,
+            RESOLUTION[0], RESOLUTION[1],
             position=Vec3(*POSITION),
             angle=[ math.radians(c) for c in ANGLE ],
             fov=FOV
@@ -99,7 +97,7 @@ class Scene:
             thread.start()
 
         for thread in thread_pool:
-            while thread.is_alive():
-                self.window.draw(self.pixels)
-                TimeModule.sleep(1.0/30.0)
+            if ANIMATE_FILL:
+                while thread.is_alive():
+                    self.window.draw(self.pixels)
             thread.join()

@@ -39,6 +39,8 @@ class Light:
 
         brightness = material.ambient
 
+        # Compute phong lighting and fresnel reflection if not in a shadow
+        # (formulas just compiled from online)
         if not in_shade:
             normal = hit.normal
             light_dir = Ray(hit.at, -to_light).reflect(hit.normal).direction
@@ -51,29 +53,4 @@ class Light:
             brightness += (1 - f) * material.diffuse * max(0, normal.dot(h))
             brightness += (0 + f) * (max(0, -(hit.coming_from.dot(light_dir)))**material.shininess)
 
-        # print(brightness)
         return self.color * ((self.brightness * brightness) / (to_light.mag()**2))
-
-    def get_simple_lighting(self, obj, hit):
-        # collision is a collision object that will help create
-        # a ray from the surface point to the light
-
-        eps = 0.01
-        to_light = (self.position - hit.at)
-        light_ray = Ray(hit.at, to_light).correct(hit.normal, eps)
-
-        # Perform the collision here, it will give us a distance marched
-        light_collision = MarchRay(light_ray, obj)
-
-        # Calculate the illumination of the surface based on its 
-        # normal and the direction to the light
-        illumination = clamp(light_ray.direction.dot(hit.normal), 0, 1)
-        
-        # The surface is in the shade if a ray from the surface didn't
-        # travel the distance of the light ray
-        if light_collision.marched < to_light.mag():
-            illumination *= 0.1
-        illumination **= 0.4545 #<-- gamma correction
-
-        return self.color * illumination 
-

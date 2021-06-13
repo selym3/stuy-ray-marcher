@@ -1,12 +1,5 @@
 from .measurable import Measurable
 
-def mod(primitive, period):
-    def mod_sdf(pos):
-        looped = (pos % period) - (period * 0.5) 
-        return primitive.sdf(looped)
-
-    return Measurable(calculator=mod_sdf)
-
 def sphere(position, radius):
     def sphere_sdf(pos):
         return (pos - position).mag() - radius

@@ -7,6 +7,8 @@ from multiprocessing import shared_memory
 
 from utils import Traversable, toColor
 
+from constants import *
+
 class PixelBase(Traversable):
     '''
     A class that represents a drawable 2D grid of pixels.
@@ -97,6 +99,11 @@ class Pixels(PixelBase):
             buffer=self.shm.buf
         )
 
+    def __del__(self):
+        del self.buffer
+        self.shm.close()
+        self.shm.unlink()
+
     def clear(self):
         # I don't use this, but it helps show how this 
         # class works. It is controlled by a single turtle 
@@ -111,11 +118,11 @@ class Pixels(PixelBase):
     def to_image(self):
         image = Image.fromarray(self.buffer, mode='RGB')
 
-        if Pixels.ResizeImage:
-            image = image.resize(Pixels.ResizeImage)
+        if RESOLUTION:
+            image = image.resize((WIDTH, HEIGHT))
 
-        if type(Pixels.SaveImage) == str:
-            image.save(Pixels.SaveImage)
+        if type(SAVE_AS) == str:
+            image.save(SAVE_AS)
         
         return image
 
