@@ -35,6 +35,7 @@ You should submit to the homework server:
 - turtle
 - pillow (Python Imaging Library)
 - tkinter (seemed to be there if Turtle worked)
+- linux is recommended, as for now, the windows version uses slower threading
 
 `pip install -r requirements.txt`
 

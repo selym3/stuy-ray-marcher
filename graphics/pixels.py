@@ -4,7 +4,7 @@ from PIL import Image
 from time import time
 
 from multiprocessing import shared_memory
-from .mp import *
+import os
 
 from utils import Traversable, toColor
 
@@ -87,18 +87,25 @@ class Pixels(PixelBase):
 
         # Create a buffer to modify it and convert into 
         # an image
-        buffer = np.empty(
-            (height, width, 3),
-            dtype=np.uint8
-        )
+        
+        if self.needs_multi_processing():
+            buffer = np.empty(
+                (height, width, 3),
+                dtype=np.uint8
+            )
 
-        self.shm = shared_memory.SharedMemory(create=True, size=buffer.nbytes)
+            self.shm = shared_memory.SharedMemory(create=True, size=buffer.nbytes)
 
-        self.buffer = np.ndarray(
-            (height, width, 3),
-            dtype=np.uint8,
-            buffer=self.shm.buf
-        )
+            self.buffer = np.ndarray(
+                (height, width, 3),
+                dtype=np.uint8,
+                buffer=self.shm.buf
+            )
+        else:
+            self.buffer = np.ndarray((height,width,3), dtype=np.uint8)
+
+    def needs_multi_processing(self):
+        return os.name != 'nt'
 
     def __del__(self):
         del self.buffer

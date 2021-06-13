@@ -5,8 +5,13 @@ See examples.py, constants.py, or main.py for configurable code.
 from graphics import *
 from marching import *
 
-import multiprocessing
-from graphics.mp import *
+import os
+if os.name == 'nt':
+    import threading
+    Worker = threading.Thread
+else:
+    import multiprocessing
+    Worker = multiprocessing.Process
 
 from utils import clamp
 from vec3 import Vec3
@@ -16,7 +21,7 @@ from constants import *
 class Scene:
     ''' 
     The scene is where the ray marching algorithm is run and 
-    the graphics components are used to display it. 
+    the graphics components are used self.buffer = np.ndarray((height,width,3), dtype=np.uint8)to display it. 
     '''
 
     _Pixels = { 
@@ -97,7 +102,7 @@ class Scene:
         thread_pool = []
 
         for which in range(thread_count):
-            thread = multiprocessing.Process(target=on_thread, args=(which, thread_count))
+            thread = Worker(target=on_thread, args=(which, thread_count))
             thread_pool += [thread]
             thread.start()
 
