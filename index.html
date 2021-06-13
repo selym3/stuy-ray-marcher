@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <style>
+        /* include fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Oswald:wght@400;600&display=swap');
+
+        .slide-in {
+            animation-name: slide-in-animation;
+            animation-duration: 0.25s;
+            /* animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); */
+            animation-iteration-count: 1;
+        }
+
+        @keyframes slide-in-animation {
+            0% {
+                transform: translateX(-15vw);
+            }
+
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
+        :root {
+
+            --pink: #f7868c;
+            --blue: #66a1ff;
+            --gray: darkgray;
+
+            --navbar-color: var(--blue);
+            --heading-color: var(--gray);
+
+            /* everything will be centered */
+            --navbar-width: 57.5%;
+            --content-width: 55%;
+
+            /* some mobile settings */
+            --navbar-width-mobile: 90%;
+            --content-width-mobile: 85%;
+
+        }
+
+        @media only screen and (max-width: 1024px) {
+            #navbar {
+                width: var(--navbar-width-mobile) !important;
+            }
+
+            #content {
+                width: var(--content-width-mobile) !important;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+
+            font-family: 'Lato', sans-serif;
+        }
+
+
+        #navbar-background {
+            background-color: var(--navbar-color);
+            width: 100vw;
+            color: white;
+            padding: 10px 0;
+            box-shadow: 0 1px 3px gray;
+        }
+
+        #navbar {
+            width: var(--navbar-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        #navbar .element {
+            margin: 0 15px;
+        }
+
+        #navbar .title {
+            font-size: 2vw;
+            user-select: none;
+            font-weight: bold;
+        }
+
+        #navbar .link {
+            font-size: 1.3vw;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0.7;
+        }
+
+        .selected,
+        #navbar .link:hover {
+            text-shadow: 0 0.5px gray;
+            opacity: 1 !important;
+        }
+
+        #navbar .link a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        #content {
+
+            margin: 15px 5px;
+            /* max-width: 1200px; */
+            width: var(--content-width);
+            /* border-right: 3px solid black; */
+
+            margin: 0 auto;
+        }
+
+        #content .text {
+            margin: 6px 0;
+            font-size: 1.2vw;
+        }
+
+        #content .text.column {
+            column-count: 2;
+        }
+
+        #content .text.indented {
+            text-indent: 15px;
+        }
+
+        #content .heading,
+        #content .subheading {
+            font-size: 3vw;
+            color: var(--heading-color);
+            margin: 7.5px 0;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        #content .subheading {
+            font-size: 2.5vw !important;
+        }
+
+        #content .image {
+            margin: 15px 0;
+            /* width: 600px; */
+            max-width: 100%;
+        }
+
+        #content .image img {
+            /* width: 50vw ; */
+            width: 100%;
+            box-shadow: 0 1px 3px gray;
+        }
+
+
+        #content .image .caption {
+            font-style: italic;
+            font-weight: lighter;
+            font-size: 85%;
+        }
+
+        #content .text code {
+            background-color: lightgray;
+            font-family: monospace !important;
+        }
+    </style>
+
+    <title>AnnualCs Final Projet</title>
+</head>
+
+<body>
+
+    <div id="navbar-background">
+        <div id="navbar" class="slide-in">
+            <div class="element title">Ray Marching</div>
+            <div class="element">AnnualCs Final Project</div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="text">
+            <i>By Myles Pasetsky (Pd 9)</i>
+        </div>
+
+        <div class="heading">
+            My Project - Ray Marching
+        </div>
+
+        <div class="text">
+            Ray marching (a cousin of the more popular ray tracing) is a 3D rendering technique that is designed to
+            render implicit surfaces, which means they are not solved
+            for x, y, or z. The formulas can only provide a distance to a point. This allows for interesting and complex
+            surfaces to be rendered. My project provides a small
+            set of primitive shapes
+            and a collection of nonshape modifiers to turn these shapes into complex surfaces.
+            for creating ray marching.
+        </div>
+        <div class="text">
+            Some simple scenes I setup with merely a few line of code are here:
+        </div>
+
+        <div class="image">
+            <img src="images/looped-world.png">
+        </div>
+        <div class="image">
+            <img src="images/complex-cube.png">
+        </div>
+        <div class="image">
+            <img src="images/slime.png">
+        </div>
+        <div class="image">
+            <img src="images/snowman.png">
+        </div>
+
+        <div class="subheading">
+            Difficulties - Speed
+        </div>
+
+        <div class="text">
+            The main difficulty I came at odds with was making Python fast enough to render those images
+            in a reasonable amount of time, while limiting code debt/unsatisfactory code. Another important thing I learned the hard way, 
+            was also balancing the boredom of the user, as long wait times make testing new features nearly impossible. 
+        </div>
+        <div class="text">
+            At the core of the algorithm is calculating a color for <i>EVERY</i> pixel on the screen, and 
+            these calculations can include complex formulas for 
+            distance and several different light sources. One optimization I had to do to make this project even
+            possible was to avoid using a turtle to draw each pixel. This was too slow, and only setup a 30x30 (unseeable) scene
+            with random numbers (which are not an expensive calculaion) in 60 seconds. What I had to do was instead setup an image
+            and store the calculations into that image, and when it was ready, use that as a turtle shape.
+        </div>
+        
+        <div class="text">
+            I used several other methods (and left some behind) to get it fast enough to be submittable, interesting,
+            and the code to be readable. I talk more about some of techniques in the techniques section.
+        </div>
+
+        <div class="subheading">
+            Techniques
+        </div>
+
+        <div class="text">
+            One technique I researched for this project was the ray marching algorithm itself. I had 
+            seen it before, but never coded it or learned how it worked. This allowed me to draw (not shade or light / make it look good)
+            shapes and surfaces.
+        </div>
+
+        <div class="text">
+            Another technique I had research is lighting (this is probabaly the weakest part of the project in terms of my mastery/understanding). I was
+            able to draw white shapes, but often times the complexity of these shapes was unnoticable. This is what shading and lighting are for.
+
+            I found and compiled formulas for phong lighting (namely the wikipedia article) and fit them into my program. I also allowed the program to work
+            with several light sources to mix colors. 
+        </div>
+
+        <div class="text">
+            Another technique I had to look into was how shapes and images worked in turtle. The way the algorithm
+            is fast enough is by developing an image first, and using it as a shape. However, doing this through
+            provided turtle functions was going to be suboptimal because it required having a GIF-image file necessary for saving what was
+            calculated and opening it with an add shape function, which I thought was silly. Why was turtle restricted to GIFs? And why was it restricted to files? I found
+            the source code, and found a way to pass in an array (which stores the color values of each pixels) and register
+            it as a turtle shape. This way, the code is "self contained" when it runs and doesn't require creating a new
+            file to work (although it can because saving what is rendered is useful, but should be able to be turned off). This also means that turtle was not even really restricted to GIFs at all, and I find it odd they chose 
+            GIFs to be the one supported type.
+        </div>
+
+        <div class="text">
+            The final technique/topic I had to look into was why my Python was slow (I mentioned this was in the difficulty section).
+
+            I found that there was an time overhead to using structures I liked to use in other languages that don't have this overhead, which
+            slowed down my project by a noticeable amount. Howevere, using this structures was critical to the quality of the code. I also had to look 
+            into multi<i>processing</i> in Python to speed up my program. I learned that threading in Python is actually different than multiprocessing, 
+            which was new to me, and was a rate limiting step in my code for awhile, as the code was stuck not using as much of the CPU as possible.
+        </div>
+
+        <div class="subheading">
+            Time Spent
+        </div>
+
+        <div class="text">
+            This is a number I am unsure of. I started early and finished late (although I had to stop to study for tests just a little bit).
+
+            I put a decent amount of research into this project and spent more time than I would like to admit trying things that totally didn't pan out (e.g. adding optimizations that made my code 1x as fast).
+            
+            However, as a rough estimate, I might say a good ~12 hours on this project, but I am actually not sure.
+        </div>
+
+        <div class="subheading">
+            Resources
+        </div>
+
+        <div class="text">
+            There are a lot articles and videos because I had never done this before.
+        </div> 
+
+        <ul style="list-style-type: none;">
+            <li><a href="https://en.wikipedia.org/wiki/Phong_reflection_model">Phong Reflection Model</a></li>
+            <li><a href="https://www.youtube.com/watch?v=lH61rdpJ5v8&ab_channel=BrianWill">Video on Lighting / Phong</a></li>
+            <li><a href="https://iquilezles.org/www/articles/distfunctions/distfunctions.htm">Descriptive page on Signed Distance Functions</a></li>
+            <li><a href="http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/">Page touching on SDFs, Ray Marching, Constructive Solid Geometry</li>
+            <li><a href="https://www.youtube.com/watch?v=PGtv-dBi2wE&t=858s&ab_channel=TheArtofCode">Video tutorial that codes a simple ray marcher</a>
+            <li><a href="https://www.youtube.com/watch?v=Cp5WWtMoeKg">Cool, short video on ray marching</a></li>
+            <li><a href="https://www.youtube.com/watch?v=svLzmFuSBhk">Another cool, short video on ray marching</a></li>
+        </ul>
+
+        <div class="subheading">
+            Instructions
+        </div>
+
+        <div class="text">
+            The project can be downloaded, and then two commands likely need to be run:
+        </div>
+        <div class="text"><code>pip install -r requirements.txt</code>, which install the libraries (this is just in case)</div>
+        <div class="text"><code>python main.py</code>, which runs the code</div>
+
+        <br>
+
+        <div class="text">
+            These commands should run a pre-existing example, but to configure the code:
+        </div>
+
+        <div class="text">Visit <code>example.py</code> to see the function names of the example scenes and how to make a scene</div>
+        <div class="text">Visit <code>main.py</code> to see where to call the example functions or where to put your own</div>
+        <div class="text">Visit <code>constants.py</code> to configure some backend stuff (threading, lighting, screen size)</div>
+    
+    </div>
+
+</body>
+
+</html>
