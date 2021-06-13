@@ -187,15 +187,14 @@
 
         <div class="text">
             Ray marching (a cousin of the more popular ray tracing) is a 3D rendering technique that is designed to
-            render implicit surfaces, which means they are not solved
-            for x, y, or z. The formulas can only provide a distance to a point. This allows for interesting and complex
+            render implicit surfaces, which means they are not solved. The formulas can only provide a distance to a point. This allows for interesting and complex
             surfaces to be rendered. My project provides a small
             set of primitive shapes
-            and a collection of nonshape modifiers to turn these shapes into complex surfaces.
-            for creating ray marching.
+            and a collection of modifiers that work on any primitive shape.
         </div>
         <div class="text">
-            Some simple scenes I setup with merely a few line of code are here:
+            Some simple scenes I setup with merely a few line of code are here. These would all be still lifes
+            as they all took less than 60 seconds to render:
         </div>
 
         <div class="image">
@@ -216,22 +215,17 @@
         </div>
 
         <div class="text">
-            The main difficulty I came at odds with was making Python fast enough to render those images
-            in a reasonable amount of time, while limiting code debt/unsatisfactory code. Another important thing I learned the hard way, 
-            was also balancing the boredom of the user, as long wait times make testing new features nearly impossible. 
+            The main difficulty I came at odds with was making Python fast enough to render scenes
+            in a reasonable amount of time, while also limiting ugly code. 
         </div>
         <div class="text">
             At the core of the algorithm is calculating a color for <i>EVERY</i> pixel on the screen, and 
             these calculations can include complex formulas for 
-            distance and several different light sources. One optimization I had to do to make this project even
+            distance and many light sources. One optimization I had to do to make this project even
             possible was to avoid using a turtle to draw each pixel. This was too slow, and only setup a 30x30 (unseeable) scene
             with random numbers (which are not an expensive calculaion) in 60 seconds. What I had to do was instead setup an image
-            and store the calculations into that image, and when it was ready, use that as a turtle shape.
-        </div>
-        
-        <div class="text">
-            I used several other methods (and left some behind) to get it fast enough to be submittable, interesting,
-            and the code to be readable. I talk more about some of techniques in the techniques section.
+            and store the calculations into that image, and when it was ready, use that as a turtle shape. This method ended up working,
+            and displaying an image no longer became a point of concern in terms of time.
         </div>
 
         <div class="subheading">
@@ -244,32 +238,42 @@
             shapes and surfaces.
         </div>
 
+        <br>
+
         <div class="text">
-            Another technique I had research is lighting (this is probabaly the weakest part of the project in terms of my mastery/understanding). I was
+            Another technique I had research is Lighting. I was
             able to draw white shapes, but often times the complexity of these shapes was unnoticable. This is what shading and lighting are for.
 
             I found and compiled formulas for phong lighting (namely the wikipedia article) and fit them into my program. I also allowed the program to work
             with several light sources to mix colors. 
         </div>
+        <br>
+
 
         <div class="text">
             Another technique I had to look into was how shapes and images worked in turtle. The way the algorithm
-            is fast enough is by developing an image first, and using it as a shape. However, doing this through
-            provided turtle functions was going to be suboptimal because it required having a GIF-image file necessary for saving what was
-            calculated and opening it with an add shape function, which I thought was silly. Why was turtle restricted to GIFs? And why was it restricted to files? I found
+            is fast enough is by developing an image first, and using it as a shape. 
+            
+            However, doing this through
+            provided turtle functions was going to be suboptimal because it required having a GIF image file. The image would store
+            the calculations for the screen, and its location would be given to a turtle add shape function. 
+
+            However, I thought this was silly. Why was turtle restricted to GIFs? And why was it restricted to files? I found
             the source code, and found a way to pass in an array (which stores the color values of each pixels) and register
             it as a turtle shape. This way, the code is "self contained" when it runs and doesn't require creating a new
             file to work (although it can because saving what is rendered is useful, but should be able to be turned off). This also means that turtle was not even really restricted to GIFs at all, and I find it odd they chose 
             GIFs to be the one supported type.
         </div>
 
+        <br>
+
         <div class="text">
-            The final technique/topic I had to look into was why my Python was slow (I mentioned this was in the difficulty section).
+            The final technique/topic I had to look into was why my Python was slow and how to make it faster.
 
             I found that there was an time overhead to using structures I liked to use in other languages that don't have this overhead, which
             slowed down my project by a noticeable amount. Howevere, using this structures was critical to the quality of the code. I also had to look 
             into multi<i>processing</i> in Python to speed up my program. I learned that threading in Python is actually different than multiprocessing, 
-            which was new to me, and was a rate limiting step in my code for awhile, as the code was stuck not using as much of the CPU as possible.
+            which was new to me. It was a rate limiting step in my code for awhile, as the code was stuck not using as much of the CPU as possible.
         </div>
 
         <div class="subheading">
@@ -289,10 +293,12 @@
         </div>
 
         <div class="text">
-            There are a lot articles and videos because I had never done this before.
+            There are some videos and articles I used -- there are probably more but these are the most useful. 
         </div> 
 
-        <ul style="list-style-type: none;">
+        <br>
+
+        <ul class="text" style="list-style-type: none;">
             <li><a href="https://en.wikipedia.org/wiki/Phong_reflection_model">Phong Reflection Model</a></li>
             <li><a href="https://www.youtube.com/watch?v=lH61rdpJ5v8&ab_channel=BrianWill">Video on Lighting / Phong</a></li>
             <li><a href="https://iquilezles.org/www/articles/distfunctions/distfunctions.htm">Descriptive page on Signed Distance Functions</a></li>
@@ -305,6 +311,13 @@
         <div class="subheading">
             Instructions
         </div>
+
+        <div class="text">
+            Linux is recommended to run this just because I wrote the code while on Linux and the Python multiprocessing library is much different 
+            on Windows and less flexible, so it must use the threading library, which doesn't use multiple cores. This could end up being ~4x slower on Windows.
+        </div>
+
+        <br>
 
         <div class="text">
             The project can be downloaded, and then two commands likely need to be run:
