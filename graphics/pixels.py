@@ -3,6 +3,8 @@ import numpy as np
 from PIL import Image
 from time import time
 
+from multiprocessing import shared_memory
+
 from utils import Traversable, toColor
 
 class PixelBase(Traversable):
@@ -62,7 +64,7 @@ class Pixels(PixelBase):
     turtle's shape becomes the image.
     '''
 
-    SaveImage = 'images/new_frame.png'
+    SaveImage = None # 'images/new_frame.png'
     ResizeImage = (300,300)
 
     def __init__(self, width, height, shapename=None):
@@ -82,9 +84,17 @@ class Pixels(PixelBase):
 
         # Create a buffer to modify it and convert into 
         # an image
-        self.buffer = np.empty(
+        buffer = np.empty(
             (height, width, 3),
             dtype=np.uint8
+        )
+
+        self.shm = shared_memory.SharedMemory(create=True, size=buffer.nbytes)
+
+        self.buffer = np.ndarray(
+            (height, width, 3),
+            dtype=np.uint8,
+            buffer=self.shm.buf
         )
 
     def clear(self):

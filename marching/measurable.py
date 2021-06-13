@@ -12,33 +12,25 @@ class Measurable:
         ''' Calculate distance to the end of a camera ray '''
         return self.calculator(pos)
 
-    '''
-    Vec3d normal(const Vec3d& pos) const {
-        static const Vec3d xyy(+1, -1, -1);
-        static const Vec3d yyx(-1, -1, +1);
-        static const Vec3d yxy(-1, +1, -1);
-        static const Vec3d xxx(+1, +1, +1);
-        
-        return (
-            xyy * operator()(pos + NORM_EPS * xyy) += 
-            yyx * operator()(pos + NORM_EPS * yyx) += 
-            yxy * operator()(pos + NORM_EPS * yxy) += 
-            xxx * operator()(pos + NORM_EPS * xxx)).normalize();
-        }
-    '''
+    #####################
+    # NORMAL CALCULATOR #
+    #####################
+
+    XYY = Vec3(+1, -1, -1)
+    YYX = Vec3(-1, -1, +1)
+    YXY = Vec3(-1, +1, -1)
+    XXX = Vec3(+1, +1, +1)
 
     def normal(self, pos, epsilon=0.01):
         ''' Calculates a collision normal at an assumed collision point '''
-        dist = self.sdf(pos)
-
 
         # Moves a small distance in each direction on the surface
         # of the object to estimate a normal at the position
-        normal = dist - Vec3(
-            self.sdf(pos - Vec3(epsilon, 0, 0)),
-            self.sdf(pos - Vec3(0, epsilon, 0)),
-            self.sdf(pos - Vec3(0, 0, epsilon))
-        )
+        normal = Vec3(0,0,0)
+        normal += Measurable.XYY * self.sdf(pos + Measurable.XYY * epsilon) 
+        normal += Measurable.YYX * self.sdf(pos + Measurable.YYX * epsilon)
+        normal += Measurable.YXY * self.sdf(pos + Measurable.YXY * epsilon)
+        normal += Measurable.XXX * self.sdf(pos + Measurable.XXX * epsilon)
 
         return normal.normal()
 

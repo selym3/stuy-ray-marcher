@@ -1,10 +1,14 @@
 from graphics import *
 from marching import *
 
-import threading
+import multiprocessing
+
+import time as TimeModule
 
 from utils import clamp
 from vec3 import Vec3
+
+from constants import *
 
 class Scene:
     ''' 
@@ -18,31 +22,36 @@ class Scene:
         'test': PixelBase
     }['fast']
     
-    def __init__(self, width, height, light, objects, camera=None):
-        # Turtle API
-        self.window = Window(width, height)
-        self.pixels = Scene._Pixels(width, height)
+    def __init__(self, lights, object):
+        # Turtle Rendering
+        self.window = Window(WIDTH, HEIGHT)
+        self.pixels = Scene._Pixels(WIDTH, HEIGHT)
         
-        # Raymarching API
-        if camera is None:
-            camera = Camera(
-                width, height, 
-                position=Vec3(0,0,0),
-                fov=90
-            )
+        # Raymarching Calculations
+        self.camera = Camera(
+            WIDTH, HEIGHT,
+            position=Vec3(*POSITION),
+            angle=[ math.radians(c) for c in ANGLE ],
+            fov=FOV
+        )
 
-        self.camera = camera 
-        # self.objects = group(objects)
-        self.objects = objects
+        self.object = object
+        self.lights = lights
 
-        self.light = light
+        self.material = Material(
+            SPECULAR,
+            DIFFUSE,
+            AMBIENT,
+            SHININESS
+        )
+
+        if THREADS > 1:
+            self.update_pixels = lambda: self.update_pixels_multi(THREADS)
+        else:
+            self.update_pixels = lambda: self.update_pixels()
 
     def is_running(self):
         return self.window.running
-
-    def execute_multi(self, thread_count=16):
-        self.update_pixels_multi(thread_count)
-        self.window.draw(self.pixels)
 
     def execute(self):
         self.update_pixels()
@@ -50,43 +59,47 @@ class Scene:
 
     def get_pixel(self, x, y):
         ray = self.camera.get_ray(x, y)
-        c = MarchRay(ray, self.objects)
+        hit = MarchRay(ray, self.object)
 
-        if c.hit:
-            return self.light.get_lighting(self.objects, c)
-            # return Vec3(255, 255, 255)
+        if hit.collided:
+            return self.get_color(hit)
         else:
             return Vec3(0,0,0)
 
-    def update_pixels(self):
+    def get_color(self, hit):
+        base_color = Vec3(0,0,0)
+
+        for light in self.lights:
+            base_color += light.get_lighting(self.object, hit, self.material)
+
+        return base_color
+
+    def update_pixels_single(self):
         for x, y in self.pixels.cors():
             self.pixels.set_pixel(x, y, self.get_pixel(x,y))
 
     def update_pixels_multi(self, thread_count):
         thread_count = clamp(thread_count, 0, self.pixels.height)
-        per_thread = int( 0.5 + self.pixels.height / thread_count)
+        coords = list(self.pixels.cors())
 
-        def on_thread(start, end):
-            for y in range(start, end):
-                for x in self.pixels.xcors():
-                    try:
-                        color = self.get_pixel(x, y)
-                        self.pixels.set_pixel(x, y, color)
-                    except Exception as e: print(e)
+        def on_thread(which, thread_count):
+            for x, y in coords[which::thread_count]:
+                try:
+                    color = self.get_pixel(x, y)
+                    self.pixels.set_pixel(x, y, color)
+                except Exception as e: 
+                    self.window._stop_running()
+                    raise e
 
         thread_pool = []
 
-        which = 0
         for which in range(thread_count):
-            start = clamp((which + 0) * per_thread, 0, self.pixels.height)
-            end   = clamp((which + 1) * per_thread, 0, self.pixels.height)
-
-            if which+1 == thread_count:
-                end = self.pixels.height
-
-            thread = threading.Thread(target=on_thread, args=(start, end))
+            thread = multiprocessing.Process(target=on_thread, args=(which, thread_count))
             thread_pool += [thread]
             thread.start()
 
         for thread in thread_pool:
+            while thread.is_alive():
+                self.window.draw(self.pixels)
+                TimeModule.sleep(1.0/30.0)
             thread.join()
