@@ -4,6 +4,7 @@ from PIL import Image
 from time import time
 
 from multiprocessing import shared_memory
+from .mp import *
 
 from utils import Traversable, toColor
 

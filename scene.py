@@ -6,6 +6,7 @@ from graphics import *
 from marching import *
 
 import multiprocessing
+from graphics.mp import *
 
 from utils import clamp
 from vec3 import Vec3
