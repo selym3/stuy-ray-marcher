@@ -1,6 +1,43 @@
 from vec3 import Vec3
 
 class Measurable:
+
+    ###############################
+    # CONSTRUCTIVE SOLID GEOMETRY #
+    ###############################
+
+    '''
+    See modifiers.py for cool things to add primitive shapes
+    See shapes.py for primitive measurable shapes
+    '''
+
+    def __add__(self, other):
+        ''' Union of two measurable objects '''
+        return Measurable(lambda pos:
+            min(
+                self.sdf(pos),
+                other.sdf(pos)        
+            )
+        )
+    
+    def __mul__(self, other):
+        ''' Intersection of two measurable objects '''
+        return Measurable(lambda pos:
+            max(
+                self.sdf(pos),
+                other.sdf(pos)
+            )
+        )
+
+    def __neg__(self):
+        ''' Negation of a measurable object '''
+        return Measurable(lambda pos: -self.sdf(pos))
+
+    def __sub__(self, other):
+        ''' Difference between two measurable objects '''
+        return self * (-other)
+
+
     def __init__(self, calculator):
         self.calculator = calculator
     
@@ -33,33 +70,3 @@ class Measurable:
         normal += Measurable.XXX * self.sdf(pos + Measurable.XXX * epsilon)
 
         return normal.normal()
-
-    ###############################
-    # CONSTRUCTIVE SOLID GEOMETRY #
-    ###############################
-
-    def __add__(self, other):
-        ''' Union of two measurable objects '''
-        return Measurable(lambda pos:
-            min(
-                self.sdf(pos),
-                other.sdf(pos)        
-            )
-        )
-    
-    def __mul__(self, other):
-        ''' Intersection of two measurable objects '''
-        return Measurable(lambda pos:
-            max(
-                self.sdf(pos),
-                other.sdf(pos)
-            )
-        )
-
-    def __neg__(self):
-        ''' Negation of a measurable object '''
-        return Measurable(lambda pos: -self.sdf(pos))
-
-    def __sub__(self, other):
-        ''' Difference between two measurable objects '''
-        return self * (-other)

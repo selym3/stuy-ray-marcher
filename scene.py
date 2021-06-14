@@ -5,8 +5,8 @@ See examples.py, constants.py, or main.py for configurable code.
 from graphics import *
 from marching import *
 
-import os
-if os.name == 'nt':
+import platform
+if platform.system() in ( 'Windows', 'Darwin' ):
     import threading
     Worker = threading.Thread
 else:

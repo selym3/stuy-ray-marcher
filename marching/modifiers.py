@@ -2,13 +2,21 @@ from .measurable import Measurable
 from vec3 import Vec3
 import math
 
+'''
+See shapes.py for primitive shapes
+See measurable.py for operators/modifiers with constructive solid geometry
+'''
+
 def scale(primitive, s):
+    ''' s is a scaling factor '''
+
     def scale_sdf(pos):
         return primitive.sdf(pos/s) * s
     
     return Measurable(calculator=scale_sdf)
 
 def mod(primitive, period):
+    ''' period is a vector that creates a looped space '''
     def mod_sdf(pos):
         looped = (pos % period) - (period * 0.5) 
         return primitive.sdf(looped)
@@ -16,6 +24,10 @@ def mod(primitive, period):
     return Measurable(calculator=mod_sdf)
 
 def mod2(primitive, px=None, py=None, pz=None):
+    ''' 
+    this is the same as mod but can do each dimension individually 
+    (e.g. use this is in the px and pz to get a infinite plane)
+    '''
     half_period = Vec3(
         0 if px is None else px * 0.5,
         0 if py is None else py * 0.5,
@@ -34,6 +46,8 @@ def mod2(primitive, px=None, py=None, pz=None):
     return Measurable(calculator=mod2_sdf)
 
 def distort(primitive, distorter=None):
+    ''' distorter just returns a value. this might need to be paired with a 
+    lower jump scale value to make more conservative marches '''
 
     def common_distorter(pos):
         return math.sin(pos.x * 5.0) * \
@@ -49,12 +63,15 @@ def distort(primitive, distorter=None):
     return Measurable(calculator=distortion_sdf)
 
 def rounded(primitive, radius):
+    ''' this can round a primitive (e.g. can round a box) '''
     def rounded_sdf(pos):
         return primitive.sdf(pos) - radius
     
     return Measurable(calculator=rounded_sdf)
 
 def smooth_u(primitive_a, primitive_b, k=0.25):
+    ''' this is a union of the two shapes, but at a distance decided by k they
+    they are interpolated between '''
     def smoothu_sdf(pos):
         d1, d2 = primitive_a.sdf(pos), primitive_b.sdf(pos)
         h = max(k-abs(d1-d2), 0.0)
@@ -63,6 +80,8 @@ def smooth_u(primitive_a, primitive_b, k=0.25):
     return Measurable(calculator=smoothu_sdf)
 
 def smooth_sub(primitive_a, primitive_b, k=0.25):
+    ''' this is a subtraction of the two shapes, but at a distance decided by k they
+    they are interpolated between ''' 
     def smooth_sub_sdf(pos):
         d1, d2 = primitive_a.sdf(pos), primitive_b.sdf(pos)
         h = max(k-abs(-d1-d2), 0.0)
@@ -71,6 +90,8 @@ def smooth_sub(primitive_a, primitive_b, k=0.25):
     return Measurable(calculator=smooth_sub_sdf)
 
 def smooth_i(primitive_a, primitive_b, k=0.25):
+    ''' this is an intersection of the two shapes, but at a distance decided by k they
+    they are interpolated between '''
     def smooth_i_sdf(pos):
         d1, d2 = primitive_a.sdf(pos), primitive_b.sdf(pos)
         h = max(k-abs(d1-d2), 0.0)

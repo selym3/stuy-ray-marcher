@@ -91,8 +91,8 @@ def ComplexCube():
 def Jelly():
     ''' 
     IMPORTANT: to run this one, set the JUMP_SCALAR in the constants 
-    to 0.6 for better lighting accuracy. this one looks better
-    with a smaller fov of 55.0
+    to ~0.6 for better lighting accuracy. If there are any lighting glitches, div by zero,
+    or artifacts make it smaller. this one looks better with a smaller fov of 55.0
     '''
 
     sdf = smooth_u(
@@ -116,8 +116,8 @@ def Jelly():
 def AbstractCreation():
     ''' 
     IMPORTANT: to run this one, set the JUMP_SCALAR in the constants 
-    to 0.6 for better lighting accuracy. this one looks better
-    with a smaller fov of 55.0
+    to ~0.6. If there are any lighting glitches, division by zero errors, or
+    artifacts make it smaller. this one looks better with a smaller fov of 55.0
     '''
 
     # Distort has a default distort function (the same one as inside Jelly)

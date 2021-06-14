@@ -4,7 +4,7 @@ from PIL import Image
 from time import time
 
 from multiprocessing import shared_memory
-import os
+import platform
 
 from utils import Traversable, toColor
 
@@ -105,7 +105,7 @@ class Pixels(PixelBase):
             self.buffer = np.ndarray((height,width,3), dtype=np.uint8)
 
     def needs_multi_processing(self):
-        return os.name != 'nt'
+        return not ( platform.system() in ( 'Windows', 'Darwin' ) )
 
     def __del__(self):
         del self.buffer
