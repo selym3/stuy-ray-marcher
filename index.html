@@ -34,12 +34,12 @@
             --heading-color: var(--gray);
 
             /* everything will be centered */
-            --navbar-width: 57.5%;
-            --content-width: 55%;
+            --navbar-width: 62.5%;
+            --content-width: 60%;
 
             /* some mobile settings */
-            --navbar-width-mobile: 90%;
-            --content-width-mobile: 85%;
+            --navbar-width-mobile: 100vw;
+            --content-width-mobile: 90vw;
 
         }
 
@@ -48,8 +48,30 @@
                 width: var(--navbar-width-mobile) !important;
             }
 
+            #navbar .title {
+                font-size: 300% !important;
+            }
+
+            #navbar .element {
+                font-size: 150%;
+            }
+
             #content {
                 width: var(--content-width-mobile) !important;
+            }
+
+            #content .heading {
+                font-size: 500% !important;
+                margin: 30px 0 !important;
+            }
+
+            #content .subheading {
+                font-size: 400% !important;
+                margin: 25px 0 !important;
+            }
+
+            #contet .text {
+                font-size: 100% !important;
             }
         }
 
@@ -82,13 +104,13 @@
         }
 
         #navbar .title {
-            font-size: 2vw;
+            font-size: 200%;
             user-select: none;
             font-weight: bold;
         }
 
         #navbar .link {
-            font-size: 1.3vw;
+            font-size: 130%;
             transition: opacity 0.3s ease-in-out;
             opacity: 0.7;
         }
@@ -116,7 +138,7 @@
 
         #content .text {
             margin: 6px 0;
-            font-size: 1.2vw;
+            font-size: 120%;
         }
 
         #content .text.column {
@@ -129,14 +151,18 @@
 
         #content .heading,
         #content .subheading {
-            font-size: 3vw;
             color: var(--heading-color);
-            margin: 7.5px 0;
             font-family: 'Oswald', sans-serif;
         }
 
+        #content .heading {
+            font-size: 300%;
+            margin: 15px 0;
+        }
+
         #content .subheading {
-            font-size: 2.5vw !important;
+            font-size: 250%;
+            margin: 10px 0;
         }
 
         #content .image {
@@ -192,6 +218,7 @@
             set of primitive shapes
             and a collection of modifiers that work on any primitive shape.
         </div>
+        <br>
         <div class="text">
             Some simple scenes I setup with merely a few line of code are here. These would all be still lifes
             as they all took less than 60 seconds to render:
@@ -218,6 +245,7 @@
             The main difficulty I came at odds with was making Python fast enough to render scenes
             in a reasonable amount of time, while also limiting ugly code. 
         </div>
+        <br>
         <div class="text">
             At the core of the algorithm is calculating a color for <i>EVERY</i> pixel on the screen, and 
             these calculations can include complex formulas for 
