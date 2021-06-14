@@ -78,3 +78,24 @@ def ComplexCube():
     ]
 
     return sdf, lights
+
+def Jelly():
+
+    def distorter(pos):
+        return math.sin(5*pos.x) * \
+         math.sin(5*pos.y) * \
+         math.sin(5*pos.z) * \
+         0.25
+
+    sdf = distort(
+        smooth_u(
+            sphere(Vec3(+1,0,3), 1.1),
+            sphere(Vec3(-1,0,3), 1.1),
+            0.5
+        ), 
+        distorter
+    )
+
+    lights = [ Light(Vec3(-1,0,-3), Vec3(255, 45, 10), 128) ]
+
+    return sdf, lights

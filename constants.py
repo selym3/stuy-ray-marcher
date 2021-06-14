@@ -7,22 +7,22 @@ but will not often be changed when designing a scene.
 The size of the turtle window / the area of the turtle
 window in which rendering takes place (in pixels)
 '''
-WIDTH = 512
-HEIGHT = 512
+WIDTH = 1024
+HEIGHT = 1024
 
 '''
 The amount of pixels that will have a color calculated. These will
 be packed into the width , height. The resolution can larger
 than or greater than the real width, height. 
 '''
-RESOLUTION = (256, 256)
+RESOLUTION = (512, 512)
 
 '''
 A string that is the path to an image. The current frame will 
 be saved inside of it. If this is False/None/ not a string it 
 will not save
 '''
-SAVE_AS = None # 'your-scene.png'
+SAVE_AS = None # 'images/jelly.png'
 
 '''
 These are configuration options for the camera.
@@ -59,14 +59,20 @@ MAX_DISTANCE = 64
 SURFACE_DISTANCE = 0.01
 
 '''
-These are the lighting configuration options.s
+These are the lighting configuration options.
 
 These parameters are described in: https://en.wikipedia.org/wiki/Phong_reflection_model
+
+Phong lighting doesn't take into account shadows by default, it's often added on, so it can be 
+turned off.
 '''
+
 SPECULAR = 0.3
 DIFFUSE = 1
 AMBIENT = 0.01
 SHININESS = 96
+
+SHADOWS = False
 
 '''
 If camera movement, animation, or anything that necessitates multiple

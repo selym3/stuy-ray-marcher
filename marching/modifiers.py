@@ -1,4 +1,6 @@
 from .measurable import Measurable
+from vec3 import Vec3
+import math
 
 def scale(primitive, s):
     def scale_sdf(pos):
@@ -12,6 +14,39 @@ def mod(primitive, period):
         return primitive.sdf(looped)
 
     return Measurable(calculator=mod_sdf)
+
+def mod2(primitive, px=None, py=None, pz=None):
+    half_period = Vec3(
+        0 if px is None else px * 0.5,
+        0 if py is None else py * 0.5,
+        0 if pz is None else pz * 0.5
+    )
+
+    def mod2_sdf(pos):
+        looped = Vec3(
+            pos.x if px is None else pos.x % px,
+            pos.y if py is None else pos.y % py,
+            pos.z if pz is None else pos.z % pz
+        ) - half_period
+
+        return primitive.sdf(looped)
+
+    return Measurable(calculator=mod2_sdf)
+
+def distort(primitive, distorter=None):
+
+    def common_distorter(pos):
+        return math.sin(pos.x * 5.0) * \
+             math.sin(pos.y * 5.0) * \
+             math.sin(pos.z * 5.0) * 0.25
+
+    if distorter is None:
+        distorter = common_distorter
+
+    def distortion_sdf(pos):
+        return primitive.sdf(pos + distorter(pos))
+
+    return Measurable(calculator=distortion_sdf)
 
 def rounded(primitive, radius):
     def rounded_sdf(pos):

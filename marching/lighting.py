@@ -1,6 +1,7 @@
 from .marcher import MarchRay
 from .ray import Ray
 from utils import clamp
+from constants import *
 
 class Material:
 
@@ -34,8 +35,11 @@ class Light:
         # See if there are any other surfaces between the light source and
         # surface collided with. We march the ray and see if it traveled enough
         # distance to reach the light.
-        light_collision = MarchRay(light_ray, object)
-        in_shade = light_collision.marched < to_light.mag()
+        if SHADOWS:
+            light_collision = MarchRay(light_ray, object)
+            in_shade = light_collision.marched < to_light.mag()
+        else:
+            in_shade = False
 
         brightness = material.ambient
 

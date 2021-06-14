@@ -21,7 +21,7 @@ def GetScene():
     (or return something from example.py here to see how it works)
     '''
 
-    return Snowman()
+    return Jelly()
 
 def main():
 
