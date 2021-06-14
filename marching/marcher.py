@@ -24,7 +24,7 @@ def MarchRay(ray, object):
         
         # Calculate distance to the scene and
         # accumulate the total distance 
-        from_surface = object.sdf(ray_end)
+        from_surface = object.sdf(ray_end) * JUMP_SCALAR
         marched += from_surface
 
         # If gotten close enough to the surface, hit the scene
