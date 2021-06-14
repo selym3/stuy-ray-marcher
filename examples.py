@@ -12,6 +12,11 @@ and more complex geometries can be constructed with +,-,*,negation operators or 
 
 Many of these are displayed in the examples (see main.py for running these examples)
 
+It is suggested you update the constants accordingly to what the example
+function might suggest in a docstring to get it to work / the best results. If no
+docstring is there, the provided constants (usually fov, jump scalar, shadows and lighting are
+the ones changing) should work. 
+
 NOTE:
 - Vec3 signifies an x,y,z coordinate or just a collection of 3 values 
 - the parameters of each shape can be found in marching/shapes.py
@@ -20,6 +25,8 @@ NOTE:
 from marching import *
 
 def LoopedWorld():
+    ''' the constants provided work for this one, but it looks cooler with SHADOWS = True '''
+
     sdf = mod(sphere(Vec3(0,0,0), 0.5), 2)
     lights = [ Light(Vec3(0,0,-1), Vec3(255, 255, 255), 12) ]
     
@@ -68,6 +75,8 @@ def Snowman():
 
 
 def ComplexCube():
+    ''' the constants provided work for this one, but it looks cooler with SHADOWS = True '''
+
     sdf = box(Vec3(0,0,4), 1.3) - \
         sphere(Vec3(0,0, 4), 1.75) + \
         sphere(Vec3(0, 0, 4), 0.4)
@@ -80,6 +89,17 @@ def ComplexCube():
     return sdf, lights
 
 def Jelly():
+    ''' 
+    IMPORTANT: to run this one, set the JUMP_SCALAR in the constants 
+    to 0.6 for better lighting accuracy. this one looks better
+    with a smaller fov of 55.0
+    '''
+
+    sdf = smooth_u(
+        sphere(Vec3(+1,0,5), 1.1),
+        sphere(Vec3(-1,0,5), 1.1),
+        0.5
+    )
 
     def distorter(pos):
         return math.sin(5*pos.x) * \
@@ -87,15 +107,21 @@ def Jelly():
          math.sin(5*pos.z) * \
          0.25
 
-    sdf = distort(
-        smooth_u(
-            sphere(Vec3(+1,0,3), 1.1),
-            sphere(Vec3(-1,0,3), 1.1),
-            0.5
-        ), 
-        distorter
-    )
 
-    lights = [ Light(Vec3(-1,0,-3), Vec3(255, 45, 10), 128) ]
+    sdf = distort(sdf,distorter)
+    lights = [ Light(Vec3(0,0,0), Vec3(80, 80, 255), 16) ]
+
+    return sdf, lights
+
+def AbstractCreation():
+    ''' 
+    IMPORTANT: to run this one, set the JUMP_SCALAR in the constants 
+    to 0.6 for better lighting accuracy. this one looks better
+    with a smaller fov of 55.0
+    '''
+
+    # Distort has a default distort function (the same one as inside Jelly)
+    sdf =  distort(rounded(box(Vec3(0,0,3), Vec3(0.2, 1, 0.2)), 0.1))
+    lights = [ Light(Vec3(0,0,0), Vec3(80, 80, 255), 16) ]
 
     return sdf, lights

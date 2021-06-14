@@ -3,10 +3,11 @@ Run this file with:
 python main.py
 
 Make sure GetScene is filled out properly (an example can
-be used)
+be used / returned)
 
 While rendering, the best way to quit is Escape.
-After rendering, it is fine to use a force-quit or X-button.
+After rendering, it is fine to use a force-quit or X-button after
+you see "Ended execution".
 '''
 
 from scene import *
@@ -19,9 +20,16 @@ def GetScene():
     list of light sources. See examples.py for examples of how 
     this is done or a tutorial on how to do it 
     (or return something from example.py here to see how it works)
+
+    if using an example, check examples.py to see how the constants
+    Might need to be changed to have it look the best.
     '''
 
-    return Jelly()
+    # return LoopedWorld()
+    return Slime()
+    # return Snowman()
+    # return Jelly()
+    # return AbstractCreation()
 
 def main():
 

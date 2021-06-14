@@ -30,7 +30,7 @@ These are configuration options for the camera.
 The fov is the field of view in degrees. The angle is where
 the camera is looking in degrees. The position is an x,y,z coordinate.
 '''
-FOV = 55.0
+FOV = 90.0
 POSITION = (0, 0, 0)
 ANGLE = (0, 0, 0)
 
@@ -54,14 +54,16 @@ Max steps is the max number of jumps a ray can make regardless of distance
 marched. Max distance sets a cap on the distance a ray can travel. Surface distance
 is the max distance away a ray can be from a surface before it is registered as a hit.
 
-Jump scalar is multiplied by the distance from the scene. 1 uses the value the SDF gets, while something
-less than 1 is more conservative for certain functions that need it (e.g. distortion functions).
+Jump scalar is multiplied by the distance from the scene. 1 uses the value the SDF gets, 
+while something less than 1 is more conservative for certain functions that need it 
+(e.g. distortion functions). This can have some effect on speed and a scene can break if
+its too high, so it's important that it's set accordingly. 
 '''
 MAX_STEPS = 128
 MAX_DISTANCE = 64
 SURFACE_DISTANCE = 0.01
 
-JUMP_SCALAR = 0.5
+JUMP_SCALAR = 1.0
 
 '''
 These are the lighting configuration options.
