@@ -28,6 +28,7 @@ def GetScene():
     # return LoopedWorld()
     return Slime()
     # return Snowman()
+    # return ComplexCube()
     # return Jelly()
     # return AbstractCreation()
 
