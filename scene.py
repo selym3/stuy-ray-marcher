@@ -72,7 +72,7 @@ class Scene:
         if hit.collided:
             return self.get_color(hit)
         else:
-            return Vec3(0,0,0)
+            return Vec3(*BACKGROUND_COLOR)
 
     def get_color(self, hit):
         base_color = Vec3(0,0,0)

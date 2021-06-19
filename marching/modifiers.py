@@ -98,3 +98,12 @@ def smooth_i(primitive_a, primitive_b, k=0.25):
         return max(d1, d2) + h * h * 0.25/k
 
     return Measurable(calculator=smooth_i_sdf)
+
+def terraform(primitive_a, primitive_b, factor=1.0):
+    ''' modifier used to terraform the surface of an
+    sdf based on another sdf ''' 
+
+    def terraform_sdf(pos):
+        return primitive_a.sdf(pos) - primitive_b.sdf(pos) * factor
+
+    return Measurable(calculator=terraform_sdf)

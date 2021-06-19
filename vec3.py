@@ -26,8 +26,31 @@ class Vec3:
     def __repr__(self):
         return f"Vec3{self}"
 
+    def swizzle(self, pattern):
+        pattern = pattern.lower()
+        if len(pattern) != 3:
+            raise ValueError(f"Swizzle pattern \"{pattern}\" is not of length 3")
+        
+        components = []
+        for component in pattern:
+            if   component == 'x': components += [self.x]
+            elif component == 'y': components += [self.y]
+            elif component == 'z': components += [self.z]
+            else: raise ValueError(f"Swizzle pattern \"{pattern}\" contains invalid character {component}")
+
+        return Vec3(*components)
+
+    def _unaray(self, func):
+        return Vec3(func(self.x), func(self.y), func(self.z))
+
+    def cos(self):
+        return self._unaray(math.cos)
+
+    def sin(self):
+        return self._unaray(math.sin)
+
     def abs(self):
-        return Vec3(abs(self.x), abs(self.y), abs(self.z))
+        return self._unaray(abs)
 
     def _comp(self, rhs, op):
         if IsVector(rhs):

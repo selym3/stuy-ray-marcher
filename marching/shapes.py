@@ -27,3 +27,12 @@ def plane(n, h):
         return pos.dot(n) - h
     
     return Measurable(calculator=plane_sdf)
+
+def gyroid(bias=0.0):
+    def gyroid_sdf(pos):
+        s = pos.sin()
+        c = pos.swizzle("zxy").cos()
+
+        return abs(s.dot(c) - bias)
+
+    return Measurable(calculator=gyroid_sdf)

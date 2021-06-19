@@ -125,3 +125,25 @@ def AbstractCreation():
     lights = [ Light(Vec3(0,0,0), Vec3(80, 80, 255), 16) ]
 
     return sdf, lights
+
+def EnchantedForest():
+    '''
+    This scene has sevaral of constants:
+        - FOV - 85.0
+        - POSITION - (0, -1.2, 0)
+        - ANGLE - (0, 0, 12.5)
+        - JUMP_SCALAR - <= 0.4
+    '''
+
+    def make_gyroid(bias, scalar, thickness):
+        return rounded(scale(gyroid(bias), scalar), thickness)
+
+    g = make_gyroid(1.3, 0.7, 0.03)
+    g = terraform(g, make_gyroid(0.3, 0.11, 0.03), +0.3)
+    g = g + sphere(Vec3(0, -1, 7.2), 0.5)
+
+    lights = [ 
+        Light(Vec3(0, -1, 6), Vec3(36, 200, 36), 2.0)
+    ]
+
+    return g, lights

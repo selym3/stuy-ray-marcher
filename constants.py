@@ -72,6 +72,8 @@ These parameters are described in: https://en.wikipedia.org/wiki/Phong_reflectio
 
 Phong lighting doesn't take into account shadows by default, it's often added on, so it can be 
 turned off.
+
+The background color is used where a surface is not hit.
 '''
 
 SPECULAR = 0.3
@@ -80,6 +82,8 @@ AMBIENT = 0.01
 SHININESS = 96
 
 SHADOWS = False
+
+BACKGROUND_COLOR = (0, 0, 0)
 
 '''
 If camera movement, animation, or anything that necessitates multiple
