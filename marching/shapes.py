@@ -31,7 +31,7 @@ def plane(n, h):
 def gyroid(bias=0.0):
     def gyroid_sdf(pos):
         s = pos.sin()
-        c = pos.swizzle("zxy").cos()
+        c = (pos.zxy).cos()
 
         return abs(s.dot(c) - bias)
 

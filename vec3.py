@@ -26,6 +26,11 @@ class Vec3:
     def __repr__(self):
         return f"Vec3{self}"
 
+    def __getattr__(self, name):
+        # if attribute doesn't exist (getattr), try to
+        # swizzle it
+        return self.swizzle(name)
+
     def swizzle(self, pattern):
         pattern = pattern.lower()
         if len(pattern) != 3:

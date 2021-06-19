@@ -133,6 +133,9 @@ def EnchantedForest():
         - POSITION - (0, -1.2, 0)
         - ANGLE - (0, 0, 12.5)
         - JUMP_SCALAR - <= 0.4
+    
+    The fov, position, angle are optional but 
+    make the scene look as intended.
     '''
 
     def make_gyroid(bias, scalar, thickness):
