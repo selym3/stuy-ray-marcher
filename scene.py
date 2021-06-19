@@ -70,11 +70,14 @@ class Scene:
         hit = MarchRay(ray, self.object)
 
         if hit.collided:
-            return self.get_color(hit)
+            return self.get_color_phong(hit)
         else:
             return Vec3(*BACKGROUND_COLOR)
 
-    def get_color(self, hit):
+    def get_color_normal(self, hit):
+        return 255 * (hit.normal * 0.5 + 0.5)
+
+    def get_color_phong(self, hit):
         base_color = Vec3(0,0,0)
 
         for light in self.lights:

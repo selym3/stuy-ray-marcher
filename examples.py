@@ -143,7 +143,8 @@ def EnchantedForest():
     g = g + sphere(Vec3(0, -1, 7.2), 0.5)
 
     lights = [ 
-        Light(Vec3(0, -1, 6), Vec3(36, 200, 36), 2.0)
+        Light(Vec3(0, -1, +6), Vec3(36, 200, 36), 4.0),
+        Light(Vec3(0, -1, -6), Vec3(36, 200, 36), 8.0)
     ]
 
     return g, lights

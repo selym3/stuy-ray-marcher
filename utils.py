@@ -5,6 +5,10 @@ See examples.py, constants.py, or main.py for configurable code.
 def clamp(value, min_value, max_value):
     return min(max_value, max(min_value, value))
 
+def smoothstep(min_edge, max_edge, value):
+    value = clamp((value-min_edge) / (max_edge-min_edge), 0, 1)
+    return value * value * (3 - 2 * value)
+
 import random
 def random_color():
     ''' generates a tuple with 3 components in the range [0,255] '''
